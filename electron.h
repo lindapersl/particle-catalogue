@@ -13,16 +13,17 @@
 #include<vector>
 #include<string>
 
+#include"particle.h"
 #include"lepton.h"
 
 class Electron : public Lepton
 {
   private:
     // Data members
-    double energy_em_1{};
-    double energy_em_2{};
-    double energy_had_1{};
-    double energy_had_2{};
+    // double energy_layer_1{};
+    // double energy_layer_2{};
+    // double energy_layer_3{};
+    // double energy_layer_4{};
     std::vector<double> deposited_energy{0, 0, 0, 0};
     
   public:
@@ -30,7 +31,7 @@ class Electron : public Lepton
     Electron() : Lepton() {std::cout<<"Default constructor called in Electron class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Electron(double em_1, double em_2, double had_1, double had_2, int l_number, double charge, double spin, std::string type,
+    Electron(double layer_1, double layer_2, double layer_3, double layer_4, int l_number, double charge, double spin, std::string type,
       double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
@@ -49,18 +50,18 @@ class Electron : public Lepton
     Electron& operator=(const Electron &original_lepton);
 
     // Getter functions
-    double get_em_1() const {return energy_em_1;}
-    double get_em_2() const {return energy_em_2;}
-    double get_had_1() const {return energy_had_1;}
-    double get_had_2() const {return energy_had_2;}
+    // double get_layer_1() const {return energy_layer_1;}
+    // double get_layer_2() const {return energy_layer_2;}
+    // double get_layer_3() const {return energy_layer_3;}
+    // double get_layer_4() const {return energy_layer_4;} ////// can return element of deposited energy?
     std::vector<double> get_deposited_energy() const {return deposited_energy;}
 
     // Setter functions
-    void set_em_1(double em_1);
-    void set_em_2(double em_2);
-    void set_had_1(double had_1);
-    void set_had_2(double had_2);
-    void set_deposited_energy(double em_1, double em_2, double had_1, double had_2);
+    // void set_layer_1(double layer_1);
+    // void set_layer_2(double layer_2);
+    // void set_layer_3(double layer_3);
+    // void set_layer_4(double layer_4);
+    void set_deposited_energy(double layer_1, double layer_2, double layer_3, double layer_4);
 
     // Print function
     void print_info();

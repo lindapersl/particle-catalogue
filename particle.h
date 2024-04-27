@@ -63,6 +63,10 @@ class Particle
     // Function to convert between particles and antiparticles
     virtual std::unique_ptr<Particle> convert_particle()=0;
 
+    // Pure virtual clone function to enable copying of data members involving unique pointers to the abstract
+    // base class inside the copy constructors of derived classes.
+    virtual std::unique_ptr<Particle> clone() const=0;
+
     // Print function
     virtual void print_info();
 

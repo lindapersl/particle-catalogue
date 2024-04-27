@@ -30,7 +30,7 @@ FourMomentum::FourMomentum(const FourMomentum &original_four_momentum)
   momentum_x=original_four_momentum.momentum_x;
   momentum_y=original_four_momentum.momentum_y;
   momentum_z=original_four_momentum.momentum_z;
-  four_momentum_vector=std::move(original_four_momentum.four_momentum_vector);
+  four_momentum_vector=original_four_momentum.four_momentum_vector;
 
   std::cout<<"Copy constructor called in FourMomentum class."<<std::endl;
 }
@@ -106,7 +106,7 @@ FourMomentum& FourMomentum::operator=(const FourMomentum &original_four_momentum
     momentum_x=original_four_momentum.momentum_x;
     momentum_y=original_four_momentum.momentum_y;
     momentum_z=original_four_momentum.momentum_z;
-    four_momentum_vector=std::move(original_four_momentum.four_momentum_vector);
+    four_momentum_vector=original_four_momentum.four_momentum_vector;
     
     std::cout<<"Copy assignment operator called in FourMomentum class"<<std::endl;
 

@@ -12,8 +12,8 @@
 #include<iomanip>
 #include<cmath>
 
-#include"lepton.h"
 #include"particle.h"
+#include"lepton.h"
 
 // Parameterised constructor
 Lepton::Lepton(int l_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
@@ -149,7 +149,7 @@ std::unique_ptr<Particle> Lepton::convert_particle()
     particle_type=particle_type.erase(0, 4);
   }
 
-  return std::make_unique<Lepton>(*this);
+  return this->clone();
 }
 
 // Print function
@@ -157,6 +157,7 @@ void Lepton::print_info()
 {
   if(four_momentum_ptr!=nullptr)
   {
+    // Calling the equivalent base class function
     Particle::print_info();
 
     std::cout<<"Lepton number = "<<lepton_number<<"\n"<<std::endl;

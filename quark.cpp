@@ -148,7 +148,7 @@ std::unique_ptr<Particle> Quark::convert_particle()
     particle_type=particle_type.erase(0, 4);
   }
 
-  return std::make_unique<Quark>(*this);
+  return this->clone();
 }
 
 // Print function
