@@ -158,12 +158,12 @@ void Quark::print_info()
   {
     Particle::print_info();
 
-    std::cout<<"Baryon number = "<<baryon_number<<"\n"<<std::endl;
+    std::cout<<"Baryon number = "<<baryon_number<<std::endl;
   }
 
   else
   {
     std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
-      "four momentum cannot be printed.\n"<<std::endl;
+      "four momentum cannot be printed."<<std::endl;
   }
 }

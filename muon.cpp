@@ -27,18 +27,18 @@ void Muon::print_info()
 
     if(isolation_info == 0)
     {
-      std::cout<<"Not isolated\n"<<std::endl;
+      std::cout<<"Not isolated"<<std::endl;
     }
 
     else if(isolation_info == 1)
     {
-      std::cout<<"Isolated\n"<<std::endl;
+      std::cout<<"Isolated"<<std::endl;
     }
   }
 
   else
   {
     std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
-      "four momentum cannot be printed.\n"<<std::endl;
+      "four momentum cannot be printed."<<std::endl;
   }
 }

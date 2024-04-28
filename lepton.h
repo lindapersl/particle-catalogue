@@ -53,6 +53,9 @@ class Lepton : public Particle
     // Function to convert between particles and antiparticles
     std::unique_ptr<Particle> convert_particle();
 
+    // Overriden clone function
+    std::unique_ptr<Particle> clone() const {return std::make_unique<Lepton>(*this);}
+
     // Print function
     void print_info();
 };

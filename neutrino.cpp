@@ -27,19 +27,19 @@ void Neutrino::print_info()
 
     if(interaction_info == 0)
     {
-      std::cout<<"No\n"<<std::endl;
+      std::cout<<"No"<<std::endl;
     }
 
     else if(interaction_info == 1)
     {
-      std::cout<<"Yes\n"<<std::endl;
+      std::cout<<"Yes"<<std::endl;
     }
   }
 
   else
   {
     std::cerr<<"The four momentum pointer is a null pointer, hence information about the lepton's "<<
-      "four momentum cannot be printed.\n"<<std::endl;
+      "four momentum cannot be printed."<<std::endl;
   }
 }
 

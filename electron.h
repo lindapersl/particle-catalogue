@@ -31,7 +31,7 @@ class Electron : public Lepton
     Electron() : Lepton() {std::cout<<"Default constructor called in Electron class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Electron(double layer_1, double layer_2, double layer_3, double layer_4, int l_number, double charge, double spin, std::string type,
+    Electron(double layer_1, double layer_2, double layer_3, double layer_4, int l_number, double charge, double spin,
       double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
@@ -62,6 +62,9 @@ class Electron : public Lepton
     // void set_layer_3(double layer_3);
     // void set_layer_4(double layer_4);
     void set_deposited_energy(double layer_1, double layer_2, double layer_3, double layer_4);
+
+    // Overriden clone function
+    std::unique_ptr<Particle> clone() const {return std::make_unique<Electron>(*this);}
 
     // Print function
     void print_info();

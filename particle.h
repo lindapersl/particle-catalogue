@@ -23,7 +23,7 @@ class Particle
     //Data members
     double particle_charge{};
     double particle_spin{};
-    std::string particle_type{"Ghost"};
+    std::string particle_type{"ghost"};
     std::unique_ptr<FourMomentum> four_momentum_ptr{nullptr};
 
   public:

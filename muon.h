@@ -27,8 +27,8 @@ class Muon : public Lepton
       <<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Muon(bool isolated, int l_number, double charge, double spin, std::string type, double energy, double p_x, double p_y,
-      double p_z) : Lepton(l_number, charge, spin, type, energy, p_x, p_y, p_z), isolation_info(isolated) {};
+    Muon(bool isolated, int l_number, double charge, double spin, double energy, double p_x, double p_y,
+      double p_z) : Lepton(l_number, charge, spin, "muon", energy, p_x, p_y, p_z), isolation_info(isolated) {};
 
     // Deconstructor
     virtual ~Muon() {std::cout<<"Destructor called in Muon class for a "<<particle_type<<"."<<std::endl;}
@@ -38,6 +38,9 @@ class Muon : public Lepton
 
     // Setter function
     void set_isolation(bool isolated) {isolation_info=isolated;}
+
+    // Overriden clone function
+    std::unique_ptr<Particle> clone() const {return std::make_unique<Muon>(*this);}
 
     // Print function
     void print_info();

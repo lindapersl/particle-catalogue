@@ -160,12 +160,12 @@ void Lepton::print_info()
     // Calling the equivalent base class function
     Particle::print_info();
 
-    std::cout<<"Lepton number = "<<lepton_number<<"\n"<<std::endl;
+    std::cout<<"Lepton number = "<<lepton_number<<std::endl;
   }
 
   else
   {
     std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
-      "four momentum cannot be printed.\n"<<std::endl;
+      "four momentum cannot be printed."<<std::endl;
   }
 }

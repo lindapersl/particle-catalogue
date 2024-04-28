@@ -29,7 +29,7 @@ class Tau : public Lepton
 
     // Parameterised contructor
     Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3,
-      int l_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
+      int l_number, double charge, double spin, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     Tau(const Tau &original_lepton);
@@ -51,6 +51,12 @@ class Tau : public Lepton
 
     // Setter function
     void set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3);
+
+    // Function to convert between particles and antiparticles
+    std::unique_ptr<Particle> convert_particle();
+
+    // Overriden clone function
+    std::unique_ptr<Particle> clone() const {return std::make_unique<Tau>(*this);}
 
     // Print function
     void print_info();

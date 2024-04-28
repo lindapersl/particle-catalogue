@@ -7,7 +7,9 @@
 
 #include<iostream>
 #include<vector>
+#include<string>
 #include<memory>
+#include<map>
 
 #include"particle.h"
 #include"lepton.h"
@@ -15,10 +17,10 @@
 // #include"gauge_boson.h"
 // #include"scalar_boson.h"
 // #include"four_momentum.h"
-// #include"electron.h"
-// #include"muon.h"
-// #include"tau.h"
-// #include"neutrino.h" ///// different from report
+#include"electron.h"
+#include"muon.h"
+#include"tau.h"
+#include"neutrino.h"
 // #include"up.h"
 // #include"down.h"
 // #include"charm.h"
@@ -32,7 +34,30 @@
 
 int main()
 {
-  // // Defining variables
+  // Defining the particle catalogue as a map indexed by particle type
+  std::map<std::string, std::unique_ptr<Particle>> particle_catalogue;
+
+  // instantiating the decay products oftau particles
+  std::unique_ptr<Particle> tau_1_decay_product_1=std::make_unique<Muon>(0, 1, -1, 0.5, 30, 5, 3, 7);
+  std::unique_ptr<Particle> tau_1_decay_product_2=std::make_unique<Neutrino>(0, "muon", 1, 0, 0.5, 10, 4, 7, 1)->convert_particle();
+  std::unique_ptr<Particle> tau_1_decay_product_3=std::make_unique<Neutrino>(0, "tau", 1, 0, 0.5, 8, 1, 2, 5)->convert_particle();
+
+  std::unique_ptr<Particle> tau_2_decay_product_1=std::make_unique<Muon>(0, 1, -1, 0.5, 30, 5, 3, 7);
+  std::unique_ptr<Particle> tau_2_decay_product_2=std::make_unique<Neutrino>(0, "muon", 1, 0, 0.5, 10, 4, 7, 1)->convert_particle();
+  std::unique_ptr<Particle> tau_2_decay_product_3=std::make_unique<Neutrino>(0, "tau", 1, 0, 0.5, 8, 1, 2, 5)->convert_particle();
+
+  // Creating a catalogue with 32 particles
+  // particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 1, -1, 0.5, 23, 3, 4, 5);
+  // particle_catalogue["antielectron"]=std::make_unique<Electron>(13, 2, 5, 4, 1, -1, 0.5, 25, 7, 5, 9)->convert_particle();
+  // particle_catalogue["muon"]=std::make_unique<Muon>(1, 1, -1, 0.5, 20, 1, 2, 3);
+  // particle_catalogue["antimuon"]=std::make_unique<Muon>(1, 1, -1, 0.5, 44, 6, 11, 8)->convert_particle();
+  // particle_catalogue["tau"]=std::make_unique<Tau>(std::move(tau_1_decay_product_1), std::move(tau_1_decay_product_2),
+  //   std::move(tau_1_decay_product_3), 1, -1, 0.5, 27, 3, 6, 8);
+  particle_catalogue["antitau"]=std::make_unique<Tau>(std::move(tau_2_decay_product_1), std::move(tau_2_decay_product_2),
+    std::move(tau_2_decay_product_3), 1, -1, 0.5, 18, 5, 7, 3)->convert_particle();
+
+  particle_catalogue["antitau"]->print_info();
+
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;
 
