@@ -11,6 +11,7 @@
 
 #include<iostream>
 #include<memory>
+#include<string>
 
 #include"particle.h"
 
@@ -20,13 +21,15 @@ class Quark : public Particle
 
   protected:
   double baryon_number{};
+  std::string colour_charge{"ghost"};
+
 
   public:
     // Default constructor
     Quark() : Particle() {std::cout<<"Default constructor called in Quark class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Quark(double b_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
+    Quark(double b_number, std::string colour, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
 
     // // Copy constructor
     // Quark(const Quark &original_Quark);
@@ -45,9 +48,11 @@ class Quark : public Particle
 
     // Setter function
     void set_b_number(double b_number);
+    void set_colour(std::string colour);
 
     // Getter functions
     double get_b_number() const {return baryon_number;}
+    std::string get_colour() const {return colour_charge;}
 
     // Function to convert between particles and antiparticles
     std::unique_ptr<Particle> convert_particle();

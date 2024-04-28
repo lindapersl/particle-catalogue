@@ -9,16 +9,18 @@
 #include<iostream>
 #include<vector>
 #include<iomanip>
+#include<string>
 #include<cmath>
 
 #include"quark.h"
 #include"particle.h"
 
 // Parameterised constructor
-Quark::Quark(double b_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
+Quark::Quark(double b_number, std::string colour, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
   Particle(charge, spin, type, energy, p_x, p_y, p_z)
 {
   set_b_number(b_number);  // Input checking done within setter function
+  set_colour(colour);
 }
 
 // // Copy constructor
@@ -130,6 +132,38 @@ void Quark::set_b_number(double b_number)
   }
 }
 
+void Quark::set_colour(std::string colour)
+{
+  // Checking if colour charge is consistent with whether the quark is a particle or an antiparticle
+  if(baryon_number==(1/3)) // If the quark is a particle
+  {
+    if((colour.substr(0, 4))!="anti") // If the colour charge is a colour
+    {
+      colour_charge=colour;
+    }
+
+    else
+    {
+      std::cerr<<"The colour charge is an anti-colour, but the quark is a particle. A colour charge was not set for you due to to this inconsistency."
+        <<std::endl;
+    }
+  }
+
+  else if(baryon_number==(-1/3)) // If the quark is an antiparticle
+  {
+    if((colour.substr(0, 4))=="anti") // If the colour charge is an anti-colour
+    {
+      colour_charge=colour;
+    }
+
+    else
+    {
+      std::cerr<<"The colour charge is a colour, but the quark is an antiparticle. A colour charge was not set for you due to to this inconsistency."
+        <<std::endl;
+    }
+  }
+}
+
 // Function to convert between particles and antiparticles
 std::unique_ptr<Particle> Quark::convert_particle()
 {
@@ -137,15 +171,18 @@ std::unique_ptr<Particle> Quark::convert_particle()
   particle_charge*=-1;
   baryon_number*=-1;
 
+  // Changing the particle type and colour charge accordingly
   if(baryon_number<0)
   {
     particle_type="anti"+particle_type;
+    colour_charge="anti"+colour_charge;
   }
 
   else if(baryon_number>0)
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
+    colour_charge=colour_charge.erase(0, 4);
   }
 
   return this->clone();
@@ -158,7 +195,7 @@ void Quark::print_info()
   {
     Particle::print_info();
 
-    std::cout<<"Baryon number = "<<baryon_number<<std::endl;
+    std::cout<<"Baryon number = "<<baryon_number<<"\nColour charge = "<<colour_charge<<std::endl;
   }
 
   else

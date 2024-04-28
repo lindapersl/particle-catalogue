@@ -46,8 +46,7 @@ void Neutrino::print_info()
 // Function to convert between particles and antiparticles
 std::unique_ptr<Particle> Neutrino::convert_particle()
 {
-  // Negating the charge and lepton number
-  particle_charge*=-1;
+  // Negating the lepton number (charge is zero for neutrinos, so no need to negate it)
   lepton_number*=-1;
 
   if(lepton_number<0) // If neutrino is an antiparticle after conversion

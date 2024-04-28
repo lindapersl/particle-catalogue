@@ -51,13 +51,13 @@ class Lepton : public Particle
     int get_l_number() const {return lepton_number;}
 
     // Function to convert between particles and antiparticles
-    std::unique_ptr<Particle> convert_particle();
+    virtual std::unique_ptr<Particle> convert_particle();
 
     // Overriden clone function
-    std::unique_ptr<Particle> clone() const {return std::make_unique<Lepton>(*this);}
+    virtual std::unique_ptr<Particle> clone() const {return std::make_unique<Lepton>(*this);}
 
     // Print function
-    void print_info();
+    virtual void print_info();
 };
 
 #endif
