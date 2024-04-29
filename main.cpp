@@ -13,7 +13,7 @@
 
 #include"particle.h"
 #include"lepton.h"
-// #include"quark.h"
+#include"quark.h"
 // #include"gauge_boson.h"
 // #include"scalar_boson.h"
 // #include"four_momentum.h"
@@ -21,12 +21,12 @@
 #include"muon.h"
 #include"tau.h"
 #include"neutrino.h"
-// #include"up.h"
-// #include"down.h"
-// #include"charm.h"
-// #include"strange.h"
-// #include"top.h"
-// #include"bottom.h"
+#include"up.h"
+#include"down.h"
+#include"charm.h"
+#include"strange.h"
+#include"top.h"
+#include"bottom.h"
 // #include"photon.h"
 // #include"w_boson.h"
 // #include"z_boson.h"
@@ -48,13 +48,28 @@ int main()
 
   // Creating a catalogue with 32 particles
   particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 1, -1, 0.5, 23, 3, 4, 5);
-  particle_catalogue["antielectron"]=std::make_unique<Electron>(13, 2, 5, 4, 1, -1, 0.5, 25, 7, 5, 9)->convert_particle();
+  particle_catalogue["antielectron"]=std::make_unique<Electron>(13, 2, 5, 4, 1, -1, 0.5, 24, 7, 5, 9)->convert_particle();
   particle_catalogue["muon"]=std::make_unique<Muon>(1, 1, -1, 0.5, 20, 1, 2, 3);
   particle_catalogue["antimuon"]=std::make_unique<Muon>(1, 1, -1, 0.5, 44, 6, 11, 8)->convert_particle();
   particle_catalogue["tau"]=std::make_unique<Tau>(std::move(tau_1_decay_product_1), std::move(tau_1_decay_product_2),
     std::move(tau_1_decay_product_3), 1, -1, 0.5, 27, 3, 6, 8);
   particle_catalogue["antitau"]=std::make_unique<Tau>(std::move(tau_2_decay_product_1), std::move(tau_2_decay_product_2),
     std::move(tau_2_decay_product_3), 1, -1, 0.5, 18, 5, 7, 3)->convert_particle(); ///// Problem of converting decay products
+  particle_catalogue["up"]=std::make_unique<Up>(0.333, "blue", 0.667, 0.5, 11, 4, 5, 6);
+  particle_catalogue["antiup"]=std::make_unique<Up>(0.333, "red", 0.667, 0.5, 61, 77, 52, 13)->convert_particle();
+  particle_catalogue["down"]=std::make_unique<Down>(0.333, "red", 0.667, 0.5, 3, 1, 1, 2);
+  particle_catalogue["antidown"]=std::make_unique<Down>(0.333, "green", 0.667, 0.5, 18, 8, 6, 4)->convert_particle();
+  particle_catalogue["charm"]=std::make_unique<Charm>(0.333, "blue", 0.667, 0.5, 32, 9, 4, 7);
+  particle_catalogue["anticharm"]=std::make_unique<Charm>(0.333, "red", 0.667, 0.5, 12, 8, 6, 11)->convert_particle();
+  particle_catalogue["strange"]=std::make_unique<Strange>(0.333, "red", 0.667, 0.5, 16, 6, 6, 3);
+  particle_catalogue["antistrange"]=std::make_unique<Strange>(0.333, "green", 0.667, 0.5, 23, 3, 7, 7)->convert_particle();
+  particle_catalogue["top"]=std::make_unique<Top>(0.333, "blue", 0.667, 0.5, 44, 4, 8, 10);
+  particle_catalogue["antitop"]=std::make_unique<Top>(0.333, "blue", 0.667, 0.5, 18, 9, 13, 6)->convert_particle();
+  particle_catalogue["bottom"]=std::make_unique<Bottom>(0.333, "green", 0.667, 0.5, 30, 20, 23, 9);
+  particle_catalogue["antibottom"]=std::make_unique<Bottom>(0.333, "red", 0.667, 0.5, 29, 11, 3, 2)->convert_particle();
+
+  // particle_catalogue["tau"]->print_info();
+  // particle_catalogue["antitau"]->print_info();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;

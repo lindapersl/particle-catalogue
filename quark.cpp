@@ -107,7 +107,7 @@ Quark::Quark(double b_number, std::string colour, double charge, double spin, st
 void Quark::set_b_number(double b_number)
 {
   // Ensuring baryon number is either 1/3 or -1/3 (has an absolute value of 1/3)
-  if(fabs(b_number)==(1/3))
+  if(fabs(b_number)==0.333)
   {
     baryon_number=b_number;
   }
@@ -120,14 +120,14 @@ void Quark::set_b_number(double b_number)
     {
       std::cout<<"A value of -1/3 will be set for you."<<std::endl;
 
-      baryon_number=-(1/3);
+      baryon_number=-0.333;
     }
 
     else
     {
       std::cout<<"A value of +1/3 will be set for you."<<std::endl;
 
-      baryon_number=(1/3);
+      baryon_number=0.333;
     }
   }
 }
@@ -135,7 +135,7 @@ void Quark::set_b_number(double b_number)
 void Quark::set_colour(std::string colour)
 {
   // Checking if colour charge is consistent with whether the quark is a particle or an antiparticle
-  if(baryon_number==(1/3)) // If the quark is a particle
+  if(baryon_number==0.333) // If the quark is a particle
   {
     if((colour.substr(0, 4))!="anti") // If the colour charge is a colour
     {
@@ -149,7 +149,7 @@ void Quark::set_colour(std::string colour)
     }
   }
 
-  else if(baryon_number==(-1/3)) // If the quark is an antiparticle
+  else if(baryon_number==-0.333) // If the quark is an antiparticle
   {
     if((colour.substr(0, 4))=="anti") // If the colour charge is an anti-colour
     {

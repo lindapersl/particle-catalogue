@@ -29,16 +29,18 @@ class Neutrino : public Lepton
 
     // Parameterised constructor
     Neutrino(bool interacted, std::string flavour, int l_number, double charge, double spin, double energy, double p_x, double p_y, double p_z) :
-      Lepton(l_number, charge, spin, (flavour+" neutrino"), energy, p_x, p_y, p_z), interaction_info(interacted) {};
+      Lepton(l_number, charge, spin, (flavour+" neutrino"), energy, p_x, p_y, p_z), interaction_info(interacted), neutrino_flavour(flavour) {};
 
     // Deconstructor
     virtual ~Neutrino() {std::cout<<"Destructor called in Neutrino class for a "<<particle_type<<"."<<std::endl;}
 
     // Getter function
     bool get_interaction() const {return interaction_info;}
+    std::string get_flavour() const {return neutrino_flavour;}
 
     // Setter function
     void set_interaction(bool interacted) {interaction_info=interacted;}
+    void set_flavour(std::string flavour) {neutrino_flavour=flavour;}
 
     // Function to convert between particles and antiparticles
     std::unique_ptr<Particle> convert_particle();

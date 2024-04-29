@@ -55,8 +55,8 @@ class Tau : public Lepton
     // Function to convert between particles and antiparticles
     std::unique_ptr<Particle> convert_particle();
 
-    // // Function to convert the decay products between particles and antiparticles
-    // void convert_products();
+    // Function to convert and set the decay products between particles and antiparticles
+    void convert_and_set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3);
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Tau>(*this);}

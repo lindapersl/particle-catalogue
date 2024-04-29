@@ -128,9 +128,9 @@ void Tau::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Par
       decay_products.clear();
     }
 
-    decay_products.push_back(particle_1->clone());
-    decay_products.push_back(particle_2->clone());
-    decay_products.push_back(particle_3->clone());
+    decay_products.push_back(std::move(particle_1));
+    decay_products.push_back(std::move(particle_2)); /// or clone
+    decay_products.push_back(std::move(particle_3));
   }
 
   // else if(abs(sum_product_charge)==abs(get_charge()))
@@ -163,23 +163,20 @@ std::unique_ptr<Particle> Tau::convert_particle()
   particle_charge*=-1;
   lepton_number*=-1;
 
+  convert_and_set_products(std::move(decay_products[0]), std::move(decay_products[1]), std::move(decay_products[2]));
+
+  // print_info();
+
   // std::unique_ptr<Particle> converted_product_1{decay_products[0]->convert_particle()}; ////// std::move?
   // std::unique_ptr<Particle> converted_product_2{decay_products[1]->convert_particle()};
   // std::unique_ptr<Particle> converted_product_3{decay_products[2]->convert_particle()};
 
-  // converted_product_2->print_info();
 
   // set_products(std::move(converted_product_1), std::move(converted_product_2), std::move(converted_product_3));
   
 
   // set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()),
   //   std::move(decay_products[2]->convert_particle()));
-
-  // decay_products[0]->print_info();
-
-  // decay_products[1]->print_info();
-
-  // decay_products[2]->print_info();
 
   if(lepton_number<0)
   {
@@ -195,28 +192,33 @@ std::unique_ptr<Particle> Tau::convert_particle()
   return this->clone();
 }
 
-// // Function to convert the decay products between particles and antiparticles
-// void Tau::convert_products()
-// {
-//   // Calculating the total charge of the decay products
-//   double sum_product_charge{decay_products[0]->get_charge()+decay_products[1]->get_charge()+decay_products[2]->get_charge()};
+// Function to convert and set the decay products between particles and antiparticles
+void Tau::convert_and_set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3)
+{
+  // Converting decay products
 
-//   // Checking if the total charge is equal to that of the tau particle
-//   if(sum_product_charge==get_charge())
-//   {
-//     // Ensuring the decay product vector is empty before appending
-//     if(decay_products.size()!=0)
-//     {
-//       std::cerr<<"The decay product vector of this tau particle was not empty. It will be cleared and filled with your new particles"
-//         <<std::endl;
+  set_products(std::move(particle_1->convert_particle()), std::move(particle_2->convert_particle()), std::move(particle_3->convert_particle()));
 
-//       decay_products.clear();
-//     }
+  // // Calculating the total charge of the decay products
+  // double sum_product_charge{converted_product_1->get_charge()+converted_product_2->get_charge()+conv->get_charge()};
 
-//     decay_products.push_back(std::move(particle_1));
-//     decay_products.push_back(std::move(particle_2));
-//     decay_products.push_back(std::move(particle_3));
-// }
+  // // Checking if the total charge is equal to that of the tau particle
+  // if(sum_product_charge==get_charge())
+  // {
+  //   // Ensuring the decay product vector is empty before appending
+  //   if(decay_products.size()!=0)
+  //   {
+  //     std::cerr<<"The decay product vector of this tau particle was not empty. It will be cleared and filled with your new particles"
+  //       <<std::endl;
+
+  //     decay_products.clear();
+  //   }
+
+  //   decay_products.push_back(std::move(particle_1));
+  //   decay_products.push_back(std::move(particle_2));
+  //   decay_products.push_back(std::move(particle_3));
+  // }
+}
 
 // Print function
 void Tau::print_info()
