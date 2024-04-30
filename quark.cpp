@@ -12,8 +12,8 @@
 #include<string>
 #include<cmath>
 
-#include"quark.h"
 #include"particle.h"
+#include"quark.h"
 
 // Parameterised constructor
 Quark::Quark(double b_number, std::string colour, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
@@ -103,7 +103,7 @@ Quark::Quark(double b_number, std::string colour, double charge, double spin, st
 //   }
 // }
 
-// Setter function
+// Setter functions
 void Quark::set_b_number(double b_number)
 {
   // Ensuring baryon number is either 1/3 or -1/3 (has an absolute value of 1/3)
@@ -175,14 +175,14 @@ std::unique_ptr<Particle> Quark::convert_particle()
   if(baryon_number<0)
   {
     particle_type="anti"+particle_type;
-    colour_charge="anti"+colour_charge;
+    set_colour("anti"+colour_charge); // Makes use of input checking in setter function
   }
 
   else if(baryon_number>0)
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
-    colour_charge=colour_charge.erase(0, 4);
+    set_colour(colour_charge.erase(0, 4));
   }
 
   return this->clone();

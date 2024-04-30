@@ -67,7 +67,7 @@ Electron& Electron::operator=(Electron &&original_lepton)
   else
   {
     // Calling the equivalent base class operator
-    Lepton::operator=(std::move(original_lepton));
+    Particle::operator=(std::move(original_lepton));
 
     // Move data of the original particle to a new particle
     // energy_layer_1=original_lepton.energy_layer_1;
@@ -100,7 +100,7 @@ Electron& Electron::operator=(const Electron &original_lepton)
   else
   {
     // Calling the equivalent base class operator
-    Lepton::operator=(original_lepton);
+    Particle::operator=(original_lepton);
 
     // Copying data members of the original particle
     // energy_layer_1=original_lepton.energy_layer_1;

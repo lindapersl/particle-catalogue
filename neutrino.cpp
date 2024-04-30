@@ -12,6 +12,7 @@
 #include<iomanip>
 #include<memory>
 
+#include"particle.h"
 #include"lepton.h"
 #include"neutrino.h"
 

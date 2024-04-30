@@ -14,8 +14,7 @@
 #include"particle.h"
 #include"lepton.h"
 #include"quark.h"
-// #include"gauge_boson.h"
-// #include"scalar_boson.h"
+#include"gauge_boson.h"
 // #include"four_momentum.h"
 #include"electron.h"
 #include"muon.h"
@@ -29,15 +28,15 @@
 #include"bottom.h"
 // #include"photon.h"
 // #include"w_boson.h"
-// #include"z_boson.h"
-// #include"gluon.h"
+#include"gluon.h"
+#include"z_boson.h"
 
 int main()
 {
   // Defining the particle catalogue as a map indexed by particle type
   std::map<std::string, std::unique_ptr<Particle>> particle_catalogue;
 
-  // instantiating the decay products oftau particles
+  // Instantiating the decay products of tau particles
   std::unique_ptr<Particle> tau_1_decay_product_1=std::make_unique<Muon>(0, 1, -1, 0.5, 30, 5, 3, 7);
   std::unique_ptr<Particle> tau_1_decay_product_2=std::make_unique<Neutrino>(0, "muon", 1, 0, 0.5, 10, 4, 7, 1)->convert_particle();
   std::unique_ptr<Particle> tau_1_decay_product_3=std::make_unique<Neutrino>(0, "tau", 1, 0, 0.5, 8, 1, 2, 5)->convert_particle();
@@ -45,6 +44,10 @@ int main()
   std::unique_ptr<Particle> tau_2_decay_product_1=std::make_unique<Muon>(0, 1, -1, 0.5, 30, 5, 3, 7);
   std::unique_ptr<Particle> tau_2_decay_product_2=std::make_unique<Neutrino>(0, "muon", 1, 0, 0.5, 10, 4, 7, 1)->convert_particle();
   std::unique_ptr<Particle> tau_2_decay_product_3=std::make_unique<Neutrino>(0, "tau", 1, 0, 0.5, 8, 1, 2, 5)->convert_particle();
+
+  // Instantiating the decay products of the z-boson
+  std::unique_ptr<Particle> z_boson_decay_product_1=std::make_unique<Up>(0.333, "green", 0.667, 0.5, 41, 7, 11, 6);
+  std::unique_ptr<Particle> z_boson_decay_product_2=std::make_unique<Up>(0.333, "red", 0.667, 0.5, 17, 2, 1, 6)->convert_particle();
 
   // Creating a catalogue with 32 particles
   particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 1, -1, 0.5, 23, 3, 4, 5);
@@ -67,9 +70,15 @@ int main()
   particle_catalogue["antitop"]=std::make_unique<Top>(0.333, "blue", 0.667, 0.5, 18, 9, 13, 6)->convert_particle();
   particle_catalogue["bottom"]=std::make_unique<Bottom>(0.333, "green", 0.667, 0.5, 30, 20, 23, 9);
   particle_catalogue["antibottom"]=std::make_unique<Bottom>(0.333, "red", 0.667, 0.5, 29, 11, 3, 2)->convert_particle();
+  particle_catalogue["gluon"]=std::make_unique<Gluon>("green", "antired", 0, 1, 33, 6, 4, 2);
+  particle_catalogue["antigluon"]=std::make_unique<Gluon>("antigreen", "blue", 0, 1, 38, 9, 10, 15)->convert_particle();
+  particle_catalogue["z-boson"]=std::make_unique<ZBoson>(std::move(z_boson_decay_product_1), std::move(z_boson_decay_product_2),
+    0, 1, 20, 1, 2, 4);
 
   // particle_catalogue["tau"]->print_info();
   // particle_catalogue["antitau"]->print_info();
+
+  particle_catalogue["z-boson"]->print_info();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;

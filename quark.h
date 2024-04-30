@@ -46,7 +46,7 @@ class Quark : public Particle
     // // Copy assignment operator
     // virtual Quark& operator=(const Quark &original_Quark);
 
-    // Setter function
+    // Setter functions
     void set_b_number(double b_number);
     void set_colour(std::string colour);
 
@@ -55,13 +55,13 @@ class Quark : public Particle
     std::string get_colour() const {return colour_charge;}
 
     // Function to convert between particles and antiparticles
-    std::unique_ptr<Particle> convert_particle();
+    virtual std::unique_ptr<Particle> convert_particle();
 
     // Overriden clone function
-    std::unique_ptr<Particle> clone() const {return std::make_unique<Quark>(*this);}
+    virtual std::unique_ptr<Particle> clone() const {return std::make_unique<Quark>(*this);}
 
     // Print function
-    void print_info();
+    virtual void print_info();
 };
 
 #endif
