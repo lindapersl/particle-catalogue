@@ -27,22 +27,10 @@ class Lepton : public Particle
     Lepton() : Particle() {std::cout<<"Default constructor called in Lepton class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Lepton(int l_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
-
-    // // Copy constructor
-    // Lepton(const Lepton &original_lepton);
-
-    // // Move constructor
-    // Lepton(Lepton &&original_lepton);
+    Lepton(int l_number, double charge, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z);
 
     // Destructor
     virtual ~Lepton() {std::cout<<"Destructor called in Lepton class for a "<<particle_type<<"."<<std::endl;}
-
-    // // Move assignment operator
-    // virtual Lepton& operator=(Lepton &&original_lepton);
-
-    // // Copy assignment operator
-    // virtual Lepton& operator=(const Lepton &original_lepton);
 
     // Setter function
     void set_l_number(int l_number);

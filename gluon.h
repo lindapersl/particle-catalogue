@@ -28,7 +28,7 @@ class Gluon : public GaugeBoson
     Gluon() : GaugeBoson() {std::cout<<"Default constructor called in Gluon class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Gluon(std::string colour_1, std::string colour_2, double charge, double spin, double energy, double p_x, double p_y, double p_z);
+    Gluon(std::string colour_1, std::string colour_2, double energy, double p_x, double p_y, double p_z);
 
     // Deconstructor
     virtual ~Gluon() {std::cout<<"Destructor called in Gluon class for a "<<particle_type<<"."<<std::endl;}

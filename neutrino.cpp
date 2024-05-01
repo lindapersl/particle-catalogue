@@ -39,8 +39,8 @@ void Neutrino::print_info()
 
   else
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the lepton's "<<
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 }
 

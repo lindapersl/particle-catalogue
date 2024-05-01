@@ -26,9 +26,8 @@ class Up : public Quark
     Up() : Quark() {std::cout<<"Default constructor called in Up class for a "
       <<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    Up(double b_number, std::string colour, double charge, double spin, double energy, double p_x,
-      double p_y, double p_z) : Quark(b_number, colour, charge, spin, "up", energy, p_x, p_y, p_z) {};
+    // Parameterised constructor (all up quarks have baryon number=1/3, charge=2/3 and rest mass=2.2 MeV/c^2, so these are set here)
+    Up(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667, "up", 2.2, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
     virtual ~Up() {std::cout<<"Destructor called in Up class for a "<<particle_type<<"."<<std::endl;}

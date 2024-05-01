@@ -16,10 +16,9 @@
 #include"lepton.h"
 #include"tau.h"
 
-// Parameterised constructor
+// Parameterised constructor (all taus have lepton number=1, charge=-1 and rest mass=1776.8 Mev/c^2 so these are set here)
 Tau::Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3,
-      int l_number, double charge, double spin, double energy, double p_x, double p_y, double p_z) :
-        Lepton(l_number, charge, spin, "tau", energy, p_x, p_y, p_z)
+      double energy, double p_x, double p_y, double p_z) : Lepton(1, -1, "tau", 1776.8, energy, p_x, p_y, p_z)
 {
   set_products(std::move(particle_1), std::move(particle_2), std::move(particle_3)); // Input checking done within setter function
 }
@@ -177,12 +176,12 @@ std::unique_ptr<Particle> Tau::convert_particle()
   // set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()),
   //   std::move(decay_products[2]->convert_particle()));
 
-  if(lepton_number<0)
+  if(lepton_number<0) // If tau should be its antiparticle after conversion
   {
     particle_type="anti"+particle_type;
   }
 
-  else if(lepton_number>0)
+  else if(lepton_number>0) // If tau should be its particle after conversion
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -211,19 +210,19 @@ void Tau::print_info()
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the tau's "<<
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 
   else if((four_momentum_ptr!=nullptr)&(decay_products.size()==0))
   {
-    std::cerr<<"The decay product vector of this tau particle was empty, hence information about its "<<
-      "produced particles cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of this tau particle was empty, hence information about the "<<particle_type<<
+      "'s produced particles cannot be printed."<<std::endl;
   }
 
   else
   {
     std::cerr<<"The decay product vector of this tau particle was empty and four momentum pointer is a null pointer,"
-      <<" hence information about it cannot be printed."<<std::endl;
+      <<" hence information about the "<<particle_type<<" cannot be printed."<<std::endl;
   }
 }

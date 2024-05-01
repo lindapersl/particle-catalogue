@@ -15,93 +15,13 @@
 #include"particle.h"
 #include"quark.h"
 
-// Parameterised constructor
-Quark::Quark(double b_number, std::string colour, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
-  Particle(charge, spin, type, energy, p_x, p_y, p_z)
+// Parameterised constructor (all quarks are spin-1/2 particles, so this is set here)
+Quark::Quark(double b_number, std::string colour, double charge, std::string type, double rest_mass, double energy, double p_x,
+  double p_y, double p_z) : Particle(charge, 0.5, type, rest_mass, energy, p_x, p_y, p_z)
 {
   set_b_number(b_number);  // Input checking done within setter function
   set_colour(colour);
 }
-
-// // Copy constructor
-// Quark::Quark(const Quark &original_Quark)
-// {
-//   // Avoiding self-assignment
-//   if(&original_Quark!=this)
-//   {
-//     // Copying data members of the original particle
-    
-
-//     std::cout<<"Copy constructor called in Quark class for a "<<particle_type<<"."<<std::endl;
-//   }
-
-//   else
-//   {
-//     std::cerr<<"Self-assignment detected, hence copy constructor was not performed in Quark class for a "
-//       <<particle_type<<"."<<std::endl;
-//   }
-// }
-
-// // Move constructor
-// Quark::Quark(Quark &&original_Quark)
-// {
-//   // Move data of the original particle to a new particle
-
-
-//   // Resets data members of the original particle (unique pointer taken care of automatically)
-
-
-//   std::cout<<"Move constructor called in Quark class for a "<<particle_type<<"."<<std::endl;
-// }
-
-// // Move assignment operator
-// Quark& Quark::operator=(Quark &&original_Quark)
-// {
-//   // Avoiding self-assignment
-//   if(&original_Quark==this)
-//   {
-//     std::cerr<<"Self-assignment detected, hence move assignment was not performed in Quark class for a "
-//     <<particle_type<<"."<<std::endl;
-
-//     return *this;
-//   }
-
-//   else
-//   {
-//     // Move data of the original particle to a new particle
-
-    
-//     // Resets data members of the original particle (unique pointer taken care of automatically)
-
-
-//     std::cout<<"Move assignment called in Quark class for a "<<particle_type<<"."<<std::endl;
-  
-//     return *this;
-//   }
-// }
-
-// // Copy assignment operator
-// Quark& Quark::operator=(const Quark &original_Quark)
-// {
-//   // Avoiding self-assignment
-//   if(&original_Quark==this)
-//   {
-//     std::cerr<<"Self-assignment detected, hence copy assignment was not performed in Quark class for a "
-//     <<particle_type<<"."<<std::endl;
-
-//     return *this;
-//   }
-
-//   else
-//   {
-//     // Copying data members of the original particle
-
-
-//     std::cout<<"Copy assignment called in Quark class for a "<<particle_type<<"."<<std::endl;
-  
-//     return *this;
-//   }
-// }
 
 // Setter functions
 void Quark::set_b_number(double b_number)
@@ -172,13 +92,13 @@ std::unique_ptr<Particle> Quark::convert_particle()
   baryon_number*=-1;
 
   // Changing the particle type and colour charge accordingly
-  if(baryon_number<0)
+  if(baryon_number<0) // If quark should be antiparticle after conversion
   {
     particle_type="anti"+particle_type;
     set_colour("anti"+colour_charge); // Makes use of input checking in setter function
   }
 
-  else if(baryon_number>0)
+  else if(baryon_number>0) // If quark should be its particle after conversion
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -200,7 +120,7 @@ void Quark::print_info()
 
   else
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<< /////////  change "particle"?
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 }

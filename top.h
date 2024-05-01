@@ -26,9 +26,9 @@ class Top : public Quark
     Top() : Quark() {std::cout<<"Default constructor called in Top class for a "
       <<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    Top(double b_number, std::string colour, double charge, double spin, double energy, double p_x,
-      double p_y, double p_z) : Quark(b_number, colour, charge, spin, "top", energy, p_x, p_y, p_z) {};
+    // Parameterised constructor (ll top quarks have baryon number=1/3, charge=2/3 and rest mass=173100 MeV/c^2, so these are set here)
+    Top(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667,
+      "top", 173100, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
     virtual ~Top() {std::cout<<"Destructor called in Top class for a "<<particle_type<<"."<<std::endl;}

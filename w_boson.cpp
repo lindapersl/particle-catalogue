@@ -16,9 +16,10 @@
 #include"gauge_boson.h"
 #include"w_boson.h"
 
-// Parameterised constructor
-WBoson::WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double charge, double spin, double energy,
-  double p_x, double p_y, double p_z) : GaugeBoson(charge, spin, "W-boson", energy, p_x, p_y, p_z)
+// Parameterised constructor (all W bosons have charge=-1 (W(-) should be instatiated initially) and rest mass=80360 MeV/c^2,
+// so these are set here)
+WBoson::WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy,
+  double p_x, double p_y, double p_z) : GaugeBoson(-1, "W-boson", 80360, energy, p_x, p_y, p_z)
 {
   set_products(std::move(particle_1), std::move(particle_2)); // Input checking done within setter function
 }
@@ -206,19 +207,19 @@ void WBoson::print_info()
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the w-boson's "<<
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 
   else if((four_momentum_ptr!=nullptr)&(decay_products.size()==0))
   {
-    std::cerr<<"The decay product vector of this w-boson was empty, hence information about its "<<
-      "produced particles cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of this tau particle was empty, hence information about the "<<particle_type<<
+      "'s produced particles cannot be printed."<<std::endl;
   }
 
   else
   {
-    std::cerr<<"The decay product vector of this w-boson was empty and four momentum pointer is a null pointer,"
-      <<" hence information about it cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of this tau particle was empty and four momentum pointer is a null pointer,"
+      <<" hence information about the "<<particle_type<<" cannot be printed."<<std::endl;
   }
 }

@@ -6,8 +6,8 @@
 // Author: Linda Persley (student ID: 10683097)
 // Date: 12/05/2024
 
-#ifndef Particle_H
-#define Particle_H
+#ifndef PARTICLE_H
+#define PARTICLE_H
 
 #include<iostream>
 #include<memory>
@@ -24,6 +24,7 @@ class Particle
     double particle_charge{};
     double particle_spin{};
     std::string particle_type{"ghost"};
+    double rest_mass_energy{};
     std::unique_ptr<FourMomentum> four_momentum_ptr{nullptr};
 
   public:
@@ -31,7 +32,7 @@ class Particle
     Particle() {std::cout<<"Default constructor called in Particle class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Particle(double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
+    Particle(double charge, double spin, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     Particle(const Particle &original_Particle);
@@ -52,12 +53,14 @@ class Particle
     void set_charge(double charge) {particle_charge=charge;}
     void set_spin(double spin) {particle_spin=spin;}
     void set_type(std::string type) {particle_type=type;}
+    void set_rest_mass(double rest_mass) {rest_mass_energy=rest_mass;}
     void set_four_momentum_ptr(std::unique_ptr<FourMomentum> four_mom_ptr) {four_momentum_ptr=std::move(four_mom_ptr);}
 
     // Getter functions
     double get_charge() const {return particle_charge;}
     double get_spin() const {return particle_spin;}
     std::string get_type() const {return particle_type;}
+    double get_rest_mass() const {return rest_mass_energy;}
     const std::unique_ptr<FourMomentum>& get_four_momentum_ptr() const {return four_momentum_ptr;}
 
     // Function to convert between particles and antiparticles

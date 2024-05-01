@@ -29,22 +29,11 @@ class Quark : public Particle
     Quark() : Particle() {std::cout<<"Default constructor called in Quark class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Quark(double b_number, std::string colour, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z);
-
-    // // Copy constructor
-    // Quark(const Quark &original_Quark);
-
-    // // Move constructor
-    // Quark(Quark &&original_Quark);
+    Quark(double b_number, std::string colour, double charge, std::string type, double rest_mass, double energy, double p_x,
+      double p_y, double p_z);
 
     // Destructor
     virtual ~Quark() {std::cout<<"Destructor called in Quark class for a "<<particle_type<<"."<<std::endl;}
-
-    // // Move assignment operator
-    // virtual Quark& operator=(Quark &&original_Quark);
-
-    // // Copy assignment operator
-    // virtual Quark& operator=(const Quark &original_Quark);
 
     // Setter functions
     void set_b_number(double b_number);

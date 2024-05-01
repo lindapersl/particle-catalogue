@@ -31,8 +31,7 @@ class Electron : public Lepton
     Electron() : Lepton() {std::cout<<"Default constructor called in Electron class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised constructor
-    Electron(double layer_1, double layer_2, double layer_3, double layer_4, int l_number, double charge, double spin,
-      double energy, double p_x, double p_y, double p_z);
+    Electron(double layer_1, double layer_2, double layer_3, double layer_4, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     Electron(const Electron &original_lepton);

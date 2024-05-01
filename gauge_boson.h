@@ -25,9 +25,9 @@ class GaugeBoson : public Particle
     // Default constructor
     GaugeBoson() : Particle() {std::cout<<"Default constructor called in GaugeBoson class for a "<<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    GaugeBoson(double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) : Particle(charge, spin,
-      type, energy, p_x, p_y, p_z) {};
+    // Parameterised constructor (all gauge bosons are spin-1 particles, so this is set here)
+    GaugeBoson(double charge, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z) :
+      Particle(charge, 1, type, rest_mass, energy, p_x, p_y, p_z) {};
 
     // Destructor
     virtual ~GaugeBoson() {std::cout<<"Destructor called in GaugeBoson class for a "<<particle_type<<"."<<std::endl;}
@@ -38,9 +38,6 @@ class GaugeBoson : public Particle
     // Function to convert between particles and antiparticles (Not all gauge bosons have an antiparticle, thus a clone of its particle is returned.
     // The function should be overridden in derived classes of particles that do have a corresponding antiparticle.)
     virtual std::unique_ptr<Particle> convert_particle() {return this->clone();}
-
-    // // Print function
-    // virtual void print_info() {}
 };
 
 #endif

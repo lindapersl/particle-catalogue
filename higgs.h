@@ -27,8 +27,7 @@ class Higgs : public Particle
     Higgs() : Particle() {std::cout<<"Default constructor called in Higgs class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised contructor
-    Higgs(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double charge, double spin, double energy,
-      double p_x, double p_y, double p_z);
+    Higgs(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     Higgs(const Higgs &original_boson);

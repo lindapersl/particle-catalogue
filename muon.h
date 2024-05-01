@@ -26,9 +26,9 @@ class Muon : public Lepton
     Muon() : Lepton() {std::cout<<"Default constructor called in Muon class for a "
       <<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    Muon(bool isolated, int l_number, double charge, double spin, double energy, double p_x, double p_y,
-      double p_z) : Lepton(l_number, charge, spin, "muon", energy, p_x, p_y, p_z), isolation_info(isolated) {};
+    // Parameterised constructor (all muons have lepton number=1, charge=-1 and rest mass=105.66 MeV/c^2 so these are set here)
+    Muon(bool isolated, double energy, double p_x, double p_y, double p_z) : Lepton(1, -1, "muon", 105.66, energy, p_x, p_y, p_z),
+      isolation_info(isolated) {};
 
     // Deconstructor
     virtual ~Muon() {std::cout<<"Destructor called in Muon class for a "<<particle_type<<"."<<std::endl;}

@@ -16,9 +16,9 @@
 #include"electron.h"
 
 // Parameterised constructor
-Electron::Electron(double layer_1, double layer_2, double layer_3, double layer_4, int l_number, double charge, double spin,
-  double energy, double p_x, double p_y, double p_z) : Lepton(l_number, charge, spin, "electron", energy, p_x, p_y, p_z)
-{
+Electron::Electron(double layer_1, double layer_2, double layer_3, double layer_4, double energy, double p_x, double p_y,
+  double p_z) : Lepton(1, -1, "electron", 0.511, energy, p_x, p_y, p_z)
+{ // All electrons have lepton number=1, charge=-1 and rest mass=0.511 MeV/c^2 so these are set here
   set_deposited_energy(layer_1, layer_2, layer_3, layer_4);  // Input checking done within setter function
 }
 
@@ -224,7 +224,7 @@ void Electron::set_deposited_energy(double layer_1, double layer_2, double layer
   else
   {
     std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
-      <<" the electron in the 4-vector. A correct energy distribution is going to be set for you"
+      <<" the electron in the four-momentum. A correct energy distribution is going to be set for you"
         <<" preserving the ratio of energies you inputted."<<std::endl;
 
     // Preserving the energy ratio chosen by the user
@@ -255,7 +255,7 @@ void Electron::print_info()
 
   else
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 }

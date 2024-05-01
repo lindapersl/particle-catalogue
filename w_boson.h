@@ -28,7 +28,7 @@ class WBoson : public GaugeBoson
     WBoson() : GaugeBoson() {std::cout<<"Default constructor called in WBoson class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised contructor
-    WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double charge, double spin, double energy,
+    WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy,
       double p_x, double p_y, double p_z);
 
     // Copy constructor

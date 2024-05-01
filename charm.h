@@ -26,9 +26,9 @@ class Charm : public Quark
     Charm() : Quark() {std::cout<<"Default constructor called in Charm class for a "
       <<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    Charm(double b_number, std::string colour, double charge, double spin, double energy, double p_x,
-      double p_y, double p_z) : Quark(b_number, colour, charge, spin, "charm", energy, p_x, p_y, p_z) {};
+    // Parameterised constructor (all charm quarks have baryon number=1/3, charge=2/3 and rest mass=1280 MeV/c^2 so this is set here)
+    Charm(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667,
+      "charm", 1280, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
     virtual ~Charm() {std::cout<<"Destructor called in Charm class for a "<<particle_type<<"."<<std::endl;}

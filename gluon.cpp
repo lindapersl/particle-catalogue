@@ -13,9 +13,9 @@
 #include"gauge_boson.h"
 #include"gluon.h"
 
-// Parameterised constructor
-Gluon::Gluon(std::string colour_1, std::string colour_2, double charge, double spin, double energy, double p_x, double p_y, double p_z) :
-  GaugeBoson(charge, spin, "gluon", energy, p_x, p_y, p_z)
+// Parameterised constructor (glon charge and rest mass are zero, so these are set here)
+Gluon::Gluon(std::string colour_1, std::string colour_2, double energy, double p_x, double p_y, double p_z) :
+  GaugeBoson(0, "gluon", 0, energy, p_x, p_y, p_z)
 {
   set_colours(colour_1, colour_2);  // Input checking done within setter function
 }
@@ -79,7 +79,7 @@ void Gluon::print_info()
 
   else
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the gluon's "<<
-      "four momentum cannot be printed."<<std::endl;
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the "<<particle_type<<
+      "'s four momentum cannot be printed."<<std::endl;
   }
 }

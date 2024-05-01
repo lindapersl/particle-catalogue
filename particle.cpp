@@ -15,11 +15,12 @@
 #include"particle.h"
 
 // Parameterised constructor
-Particle::Particle(double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z)
+Particle::Particle(double charge, double spin, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z)
 {
   particle_charge=charge;
   particle_spin=spin;
   particle_type=type;
+  rest_mass_energy=rest_mass;
   four_momentum_ptr=std::make_unique<FourMomentum>(energy, p_x, p_y, p_z);
 }
 
@@ -30,6 +31,7 @@ Particle::Particle(const Particle &original_particle)
   particle_charge=original_particle.particle_charge;
   particle_spin=original_particle.particle_spin;
   particle_type=original_particle.particle_type;
+  rest_mass_energy=original_particle.rest_mass_energy;
   four_momentum_ptr=std::make_unique<FourMomentum>(*(original_particle.get_four_momentum_ptr())); // Ensures deep copying
 
   std::cout<<"Copy constructor called in Particle class for a "<<particle_type<<"."<<std::endl;
@@ -42,12 +44,14 @@ Particle::Particle(Particle &&original_particle)
   particle_charge=original_particle.particle_charge;
   particle_spin=original_particle.particle_spin;
   particle_type=std::move(original_particle.particle_type);
+  rest_mass_energy=original_particle.rest_mass_energy;
   four_momentum_ptr=std::move(original_particle.four_momentum_ptr);
 
   // Resets data members of the original particle (unique pointer taken care of automatically)
   original_particle.set_charge(0);
   original_particle.set_spin(0);
   original_particle.set_type(0);
+  original_particle.set_rest_mass(0);
 
   std::cout<<"Move constructor called in Particle class for a "<<particle_type<<"."<<std::endl;
 }
@@ -70,12 +74,14 @@ Particle& Particle::operator=(Particle &&original_particle)
     particle_charge=original_particle.particle_charge;
     particle_spin=original_particle.particle_spin;
     particle_type=std::move(original_particle.particle_type);
+    rest_mass_energy=original_particle.rest_mass_energy;
     four_momentum_ptr=std::move(original_particle.four_momentum_ptr);
     
     // Resets data members of the original particle (unique pointer taken care of automatically)
     original_particle.set_charge(0);
     original_particle.set_spin(0);
     original_particle.set_type(0);
+    original_particle.set_rest_mass(0);
 
     std::cout<<"Move assignment called in Particle class for a "<<particle_type<<"."<<std::endl;
   
@@ -101,6 +107,7 @@ Particle& Particle::operator=(const Particle &original_particle)
     particle_charge=original_particle.particle_charge;
     particle_spin=original_particle.particle_spin;
     particle_type=original_particle.particle_type;
+    rest_mass_energy=original_particle.rest_mass_energy;
     four_momentum_ptr=std::make_unique<FourMomentum>(*(original_particle.get_four_momentum_ptr()));
     // The above ensures deep copying
 
@@ -110,31 +117,15 @@ Particle& Particle::operator=(const Particle &original_particle)
   }
 }
 
-// void Particle::set_charge(int charge)
-// {
-//   if((charge==1)||(charge==(-1)))
-//   {
-//     particle_charge=charge;
-//   }
-
-//   else
-//   {
-//     std::cerr<<"The charge you entered is not physical. It has to be either +1 or -1."<<
-//       "\nCharge of -1 will be set for you."<<std::endl;
-    
-//     particle_charge=-1;
-//   }
-// }
-
 // Print function
 void Particle::print_info()
 {
   if(four_momentum_ptr!=nullptr)
   {
-    std::cout<<"Particle type = "<<particle_type<<"\nCharge = "<<particle_charge<<"\nSpin = "<<
-      particle_spin<<"\nFour momentum (E/c, p_x, p_y, p_z) = ("<<std::setprecision(3)<<four_momentum_ptr->get_energy()
-        <<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_x()<<", "<<std::setprecision(3)<<
-          four_momentum_ptr->get_momentum_y()<<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_z()
-            <<")"<<std::endl;
+    std::cout<<"Particle type = "<<particle_type<<"\nCharge = "<<std::setprecision(3)<<particle_charge<<"\nSpin = "<<
+      particle_spin<<"\nRest mass = "<<std::setprecision(3)<<rest_mass_energy<<"\nFour momentum (E/c, p_x, p_y, p_z) = ("
+        <<std::setprecision(3)<<four_momentum_ptr->get_energy()<<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_x()
+          <<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_y()<<", "<<std::setprecision(3)<<
+            four_momentum_ptr->get_momentum_z()<<")"<<std::endl;
   }
 }

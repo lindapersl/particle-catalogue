@@ -27,9 +27,9 @@ class Neutrino : public Lepton
     // Default constructor
     Neutrino() : Lepton() {std::cout<<"Default constructor called in Neutrino class for a "<<particle_type<<"."<<std::endl;}
 
-    // Parameterised constructor
-    Neutrino(bool interacted, std::string flavour, int l_number, double charge, double spin, double energy, double p_x, double p_y, double p_z) :
-      Lepton(l_number, charge, spin, (flavour+" neutrino"), energy, p_x, p_y, p_z), interaction_info(interacted), neutrino_flavour(flavour) {};
+    // Parameterised constructor (all neutrinos have lepton number=1, charge=0 and rest mass=0 so these are set here)
+    Neutrino(bool interacted, std::string flavour, double energy, double p_x, double p_y, double p_z) :
+      Lepton(1, 0, (flavour+" neutrino"), 0, energy, p_x, p_y, p_z), interaction_info(interacted), neutrino_flavour(flavour) {};
 
     // Deconstructor
     virtual ~Neutrino() {std::cout<<"Destructor called in Neutrino class for a "<<particle_type<<"."<<std::endl;}

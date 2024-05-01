@@ -28,8 +28,7 @@ class ZBoson : public GaugeBoson
     ZBoson() : GaugeBoson() {std::cout<<"Default constructor called in ZBoson class for a "<<particle_type<<"."<<std::endl;}
 
     // Parameterised contructor
-    ZBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double charge, double spin, double energy,
-      double p_x, double p_y, double p_z);
+    ZBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     ZBoson(const ZBoson &original_boson);

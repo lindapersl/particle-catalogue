@@ -29,7 +29,7 @@ class Tau : public Lepton
 
     // Parameterised contructor
     Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3,
-      int l_number, double charge, double spin, double energy, double p_x, double p_y, double p_z);
+      double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     Tau(const Tau &original_lepton);

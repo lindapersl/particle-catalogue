@@ -16,91 +16,11 @@
 #include"lepton.h"
 
 // Parameterised constructor
-Lepton::Lepton(int l_number, double charge, double spin, std::string type, double energy, double p_x, double p_y, double p_z) :
-  Particle(charge, spin, type, energy, p_x, p_y, p_z)
+Lepton::Lepton(int l_number, double charge, std::string type, double rest_mass, double energy, double p_x,
+  double p_y, double p_z) : Particle(charge, 0.5, type, rest_mass, energy, p_x, p_y, p_z) // All leptons are spin-1/2 particles, so this is set here
 {
   set_l_number(l_number); // Input checking done within setter function
 }
-
-// // Copy constructor
-// Lepton::Lepton(const Lepton &original_lepton)
-// {
-//   // Avoiding self-assignment
-//   if(&original_lepton!=this)
-//   {
-//     // Copying data members of the original particle
-    
-
-//     std::cout<<"Copy constructor called in Lepton class for a "<<particle_type<<"."<<std::endl;
-//   }
-
-//   else
-//   {
-//     std::cerr<<"Self-assignment detected, hence copy constructor was not performed in Lepton class for a "
-//       <<particle_type<<"."<<std::endl;
-//   }
-// }
-
-// // Move constructor
-// Lepton::Lepton(Lepton &&original_lepton)
-// {
-//   // Move data of the original particle to a new particle
-
-
-//   // Resets data members of the original particle (unique pointer taken care of automatically)
-
-
-//   std::cout<<"Move constructor called in Lepton class for a "<<particle_type<<"."<<std::endl;
-// }
-
-// // Move assignment operator
-// Lepton& Lepton::operator=(Lepton &&original_lepton)
-// {
-//   // Avoiding self-assignment
-//   if(&original_lepton==this)
-//   {
-//     std::cerr<<"Self-assignment detected, hence move assignment was not performed in Lepton class for a "
-//     <<particle_type<<"."<<std::endl;
-
-//     return *this;
-//   }
-
-//   else
-//   {
-//     // Move data of the original particle to a new particle
-
-    
-//     // Resets data members of the original particle (unique pointer taken care of automatically)
-
-
-//     std::cout<<"Move assignment called in Lepton class for a "<<particle_type<<"."<<std::endl;
-  
-//     return *this;
-//   }
-// }
-
-// // Copy assignment operator
-// Lepton& Lepton::operator=(const Lepton &original_lepton)
-// {
-//   // Avoiding self-assignment
-//   if(&original_lepton==this)
-//   {
-//     std::cerr<<"Self-assignment detected, hence copy assignment was not performed in Lepton class for a "
-//     <<particle_type<<"."<<std::endl;
-
-//     return *this;
-//   }
-
-//   else
-//   {
-//     // Copying data members of the original particle
-
-
-//     std::cout<<"Copy assignment called in Lepton class for a "<<particle_type<<"."<<std::endl;
-  
-//     return *this;
-//   }
-// }
 
 // Setter function
 void Lepton::set_l_number(int l_number)
@@ -117,14 +37,14 @@ void Lepton::set_l_number(int l_number)
     
     if(particle_type.substr(0, 4)=="anti")
     {
-      std::cout<<"A value of -1 will be set for you."<<std::endl;
+      std::cout<<"A value of -1 will be set for you as this lepton is an antiparticle."<<std::endl;
 
       lepton_number=-1;
     }
 
     else
     {
-      std::cout<<"A value of +1 will be set for you."<<std::endl;
+      std::cout<<"A value of +1 will be set for you as this lepton is a particle."<<std::endl;
 
       lepton_number=1;
     }
@@ -138,12 +58,12 @@ std::unique_ptr<Particle> Lepton::convert_particle()
   particle_charge*=-1;
   lepton_number*=-1;
 
-  if(lepton_number<0)
+  if(lepton_number<0) // If lepton should be antiparticle after conversion
   {
     particle_type="anti"+particle_type;
   }
 
-  else if(lepton_number>0)
+  else if(lepton_number>0) // If lepton should be particle after conversion
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -161,11 +81,5 @@ void Lepton::print_info()
     Particle::print_info();
 
     std::cout<<"Lepton number = "<<lepton_number<<std::endl;
-  }
-
-  else
-  {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
-      "four momentum cannot be printed."<<std::endl;
   }
 }
