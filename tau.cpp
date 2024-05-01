@@ -211,7 +211,7 @@ void Tau::print_info()
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the tau's "<<
       "four momentum cannot be printed."<<std::endl;
   }
 

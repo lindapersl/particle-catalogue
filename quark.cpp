@@ -200,7 +200,7 @@ void Quark::print_info()
 
   else
   {
-    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<<
+    std::cerr<<"The four momentum pointer is a null pointer, hence information about the particle's "<< /////////  change "particle"?
       "four momentum cannot be printed."<<std::endl;
   }
 }
