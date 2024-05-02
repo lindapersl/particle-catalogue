@@ -21,7 +21,7 @@ Particle::Particle(double charge, double spin, std::string type, double rest_mas
   particle_spin=spin;
   particle_type=type;
   rest_mass_energy=rest_mass;
-  four_momentum_ptr=std::make_unique<FourMomentum>(energy, p_x, p_y, p_z);
+  four_momentum_ptr=std::make_unique<FourMomentum>(rest_mass, energy, p_x, p_y, p_z);
 }
 
 // Copy constructor

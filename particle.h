@@ -12,6 +12,7 @@
 #include<iostream>
 #include<memory>
 #include<string>
+#include<vector>
 
 #include"four_momentum.h"
 
@@ -73,11 +74,14 @@ class Particle
     // Print function
     virtual void print_info();
 
+    // // Function to pass rest mass to 'invariant_mass_calculator' inside four momentum class
+    // void calculate_invariant_mass() {four_momentum_ptr->invariant_mass_calculator(rest_mass_energy);}
+
     // Friend function: overloaded sum operator of two four-momenta
-    friend FourMomentum operator+(const Particle& particle_1, const Particle& particle_2);
+    friend std::vector<double> operator+(const Particle& particle_1, const Particle& particle_2);
 
     // Friend function: overloaded subtraction operator of two four-momenta
-    friend FourMomentum operator-(const Particle& particle_1, const Particle& particle_2);
+    friend std::vector<double> operator-(const Particle& particle_1, const Particle& particle_2);
 
     // Friend function: dot product of two four-momenta
     friend double dotProduct(const Particle& particle_1, const Particle& particle_2);

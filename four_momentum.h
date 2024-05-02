@@ -11,11 +11,13 @@
 
 #include<iostream>
 #include<vector>
+#include<utility>
 
 class FourMomentum
 {
   private:
     // Data members
+    double invariant_mass{};
     double particle_energy{};
     double momentum_x{};
     double momentum_y{};
@@ -27,7 +29,7 @@ class FourMomentum
     FourMomentum() {};
 
     // Parameterised constructor
-    FourMomentum(double energy, double p_x, double p_y, double p_z);
+    FourMomentum(double rest_mass, double energy, double p_x, double p_y, double p_z);
 
     // Copy constructor
     FourMomentum(const FourMomentum &original_four_momentum);
@@ -45,6 +47,7 @@ class FourMomentum
     FourMomentum& operator=(const FourMomentum &original_four_momentum);
 
     // Getter functions
+    double get_invariant_mass() const {return invariant_mass;}
     double get_energy() const {return particle_energy;} 
     double get_momentum_x() const {return momentum_x;}
     double get_momentum_y() const {return momentum_y;}
@@ -52,14 +55,15 @@ class FourMomentum
     //////std::vector<double> get_four_momentum() const {return four_momentum_vector;}
 
     // Setter functions
-    void set_energy(double energy);
-    void set_momentum_x(double p_x) {momentum_x=p_x;}
-    void set_momentum_y(double p_y) {momentum_y=p_y;}
-    void set_momentum_z(double p_z) {momentum_z=p_z;}
-    /////void set_four_momentum(std::vector<double> four_momentum);
+    void set_invariant_mass(double mass) {invariant_mass=mass;}
+    // void set_energy(double energy) {particle_energy=energy;}
+    // void set_momentum_x(double p_x) {momentum_x=p_x;}
+    // void set_momentum_y(double p_y) {momentum_y=p_y;}
+    // void set_momentum_z(double p_z) {momentum_z=p_z;}
+    void set_four_momentum(double rest_mass, double energy, double p_x, double p_y, double p_z);
 
     // Function to calculate invariant mass
-    double invariant_mass_calculator();
+    std::pair<double, bool> invariant_mass_calculator(double rest_mass);
 
     // Oerloaded sum operator of two four-momenta
     ////std::vector<double> operator+(const FourMomentum& other_particle);

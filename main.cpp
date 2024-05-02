@@ -65,7 +65,7 @@ int main()
   // std::unique_ptr<Particle> higgs_decay_product_2=std::make_unique<Bottom>(0.333, "green", -0.333, 0.5, 19, 7, 5, 11)->convert_particle();
 
   // Creating a catalogue with all 31 particles
-  particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 23, 3, 4, 5);
+  particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 1.6, 0.5, 0.7, 0.8);
   particle_catalogue["antielectron"]=std::make_unique<Electron>(13, 2, 5, 4, 24, 7, 5, 9)->convert_particle();
   particle_catalogue["muon"]=std::make_unique<Muon>(1, 20, 1, 2, 3);
   particle_catalogue["antimuon"]=std::make_unique<Muon>(1, 44, 6, 11, 8)->convert_particle();
@@ -103,7 +103,7 @@ int main()
   particle_catalogue["higgs boson"]=std::make_unique<Higgs>(std::move(higgs_decay_product_1), std::move(higgs_decay_product_2),
     12, 2, 1, 4);
 
-  // particle_catalogue["tau"]->print_info();
+  particle_catalogue["antielectron"]->print_info();
   // particle_catalogue["antitau"]->print_info();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
