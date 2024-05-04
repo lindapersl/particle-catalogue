@@ -28,9 +28,9 @@ WBoson::WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> p
 WBoson::WBoson(const WBoson &original_boson) : GaugeBoson(original_boson)
 {
   // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-  std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+  std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-  for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+  for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
@@ -96,9 +96,9 @@ WBoson& WBoson::operator=(const WBoson &original_boson)
     Particle::operator=(original_boson);
 
     // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-    std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+    std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-    for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+    for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }
@@ -185,7 +185,7 @@ std::unique_ptr<Particle> WBoson::convert_particle()
     particle_type="W(+)-boson";
   }
 
-  return this->clone();
+  return std::make_unique<WBoson>(*this);
 }
 
 // Print function

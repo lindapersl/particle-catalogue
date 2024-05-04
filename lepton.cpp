@@ -69,7 +69,7 @@ std::unique_ptr<Particle> Lepton::convert_particle()
     particle_type=particle_type.erase(0, 4);
   }
 
-  return this->clone();
+  return std::make_unique<Lepton>(*this);
 }
 
 // Print function

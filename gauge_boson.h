@@ -37,7 +37,7 @@ class GaugeBoson : public Particle
 
     // Function to convert between particles and antiparticles (Not all gauge bosons have an antiparticle, thus a clone of its particle is returned.
     // The function should be overridden in derived classes of particles that do have a corresponding antiparticle.)
-    virtual std::unique_ptr<Particle> convert_particle() {return this->clone();}
+    virtual std::unique_ptr<Particle> convert_particle() {return std::make_unique<GaugeBoson>(*this);}
 };
 
 #endif

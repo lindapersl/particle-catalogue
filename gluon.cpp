@@ -64,7 +64,7 @@ std::unique_ptr<Particle> Gluon::convert_particle()
     set_colours(colour_charge_1.erase(0, 4), "anti"+colour_charge_2);
   }
 
-  return this->clone();
+  return std::make_unique<Gluon>(*this);
 }
 
 // Print function

@@ -103,8 +103,7 @@ int main()
   particle_catalogue["higgs boson"]=std::make_unique<Higgs>(std::move(higgs_decay_product_1), std::move(higgs_decay_product_2),
     12, 2, 1, 4);
 
-  particle_catalogue["antielectron"]->print_info();
-  // particle_catalogue["antitau"]->print_info();
+  particle_catalogue["antitau"]->print_info();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;

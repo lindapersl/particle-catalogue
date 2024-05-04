@@ -27,9 +27,9 @@ Tau::Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particl
 Tau::Tau(const Tau &original_lepton) : Lepton(original_lepton)
 {
   // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-  std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+  std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-  for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+  for(vector_iterator=(original_lepton.decay_products).begin();vector_iterator<(original_lepton.decay_products).end();vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
@@ -95,9 +95,9 @@ Tau& Tau::operator=(const Tau &original_lepton)
     Particle::operator=(original_lepton);
 
     // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-    std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+    std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-    for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+    for(vector_iterator=(original_lepton.decay_products).begin();vector_iterator<(original_lepton.decay_products).end();vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }
@@ -187,7 +187,7 @@ std::unique_ptr<Particle> Tau::convert_particle()
     particle_type=particle_type.erase(0, 4);
   }
 
-  return this->clone();
+  return std::make_unique<Tau>(*this);
 }
 
 // Print function

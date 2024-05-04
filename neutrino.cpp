@@ -74,5 +74,5 @@ std::unique_ptr<Particle> Neutrino::convert_particle()
     particle_type=flavour+" "+neutrino_name;
   }
 
-  return this->clone();
+  return std::make_unique<Neutrino>(*this);
 }

@@ -27,9 +27,9 @@ Higgs::Higgs(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> par
 Higgs::Higgs(const Higgs &original_boson) : Particle(original_boson)
 {
   // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-  std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+  std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-  for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+  for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
@@ -95,9 +95,9 @@ Higgs& Higgs::operator=(const Higgs &original_boson)
     Particle::operator=(original_boson);
 
     // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
-    std::vector<std::unique_ptr<Particle>>::iterator vector_iterator;
+    std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-    for(vector_iterator=decay_products.begin();vector_iterator<decay_products.end();vector_iterator++)
+    for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }

@@ -105,7 +105,7 @@ std::unique_ptr<Particle> Quark::convert_particle()
     set_colour(colour_charge.erase(0, 4));
   }
 
-  return this->clone();
+  return std::make_unique<Quark>(*this);
 }
 
 // Print function
