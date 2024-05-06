@@ -327,7 +327,7 @@ double dotProduct(const Particle& particle_1, const Particle& particle_2)
 
   for(vector_iterator=multiplied_elements.begin();vector_iterator<multiplied_elements.end();vector_iterator++)
   {
-    dot_product_scalar+=(*vector_iterator);
+    dot_product_scalar-=(*vector_iterator); ///// correct?
   }
 
   std::cout<<"Dot product of the four-momenta = "<<std::setprecision(3)<<dot_product_scalar<<"\n"<<std::endl;

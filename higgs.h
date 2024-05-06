@@ -51,7 +51,7 @@ class Higgs : public Particle
     void set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2);
 
     // Function to convert between particles and antiparticles (The Higgs doesn't have an antiparticle, thus a clone of its particle is returned.)
-    std::unique_ptr<Particle> convert_particle() {return this->clone();}
+    std::unique_ptr<Particle> convert_particle() {return std::make_unique<Higgs>(*this);}
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Higgs>(*this);}

@@ -181,7 +181,6 @@ std::unique_ptr<Particle> WBoson::convert_particle()
 
   else if(particle_charge>0) // If w-boson should be W(+) after conversion
   {
-    // Delete first four letters "anti"
     particle_type="W(+)-boson";
   }
 

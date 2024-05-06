@@ -11,11 +11,12 @@
 #include<memory>
 #include<map>
 
+#include"particle_container.h"
+#include"four_momentum.h"
 #include"particle.h"
 #include"lepton.h"
 #include"quark.h"
 #include"gauge_boson.h"
-#include"four_momentum.h"
 #include"electron.h"
 #include"muon.h"
 #include"tau.h"
@@ -33,8 +34,8 @@
 
 int main()
 {
-  // Defining the particle catalogue as a map indexed by particle type
-  std::map<std::string, std::unique_ptr<Particle>> particle_catalogue;
+  // Defining the particle catalogue as a map with particle type name as the key
+  ParticleContainer<Particle> particle_catalogue;
 
   // Instantiating the decay products of tau particles (particle & antiparticle)
   std::unique_ptr<Particle> tau_1_decay_product_1=std::make_unique<Muon>(0, 30, 5, 3, 7);
@@ -103,7 +104,17 @@ int main()
   particle_catalogue["higgs boson"]=std::make_unique<Higgs>(std::move(higgs_decay_product_1), std::move(higgs_decay_product_2),
     12, 2, 1, 4);
 
-  particle_catalogue["antitau"]->print_info();
+  std::cout<<"Total number of particles in the catalogue : "<<particle_catalogue.get_total_number_particles()<<std::endl;
+
+  std::cout<<"Number of lepton type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Lepton>()<<std::endl;
+  std::cout<<"Number of quark type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Quark>()<<std::endl;
+  std::cout<<"Number of gauge boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<GaugeBoson>()<<std::endl;
+  std::cout<<"Number of scalar boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Higgs>()<<std::endl;
+  
+  // Defining a new sub-container for leptons
+  ParticleContainer<Particle> lepton_catalogue;
+
+  lepton_catalogue=particle_catalogue.get_sub_container_of_type<Lepton>();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;
