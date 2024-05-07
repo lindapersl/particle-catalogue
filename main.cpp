@@ -10,6 +10,7 @@
 #include<string>
 #include<memory>
 #include<map>
+#include<iomanip>
 
 #include"particle_container.h"
 #include"four_momentum.h"
@@ -38,13 +39,13 @@ int main()
   ParticleContainer<Particle> particle_catalogue;
 
   // Instantiating the decay products of tau particles (particle & antiparticle)
-  std::unique_ptr<Particle> tau_1_decay_product_1=std::make_unique<Muon>(0, 30, 5, 3, 7);
-  std::unique_ptr<Particle> tau_1_decay_product_2=std::make_unique<Neutrino>(0, "muon", 10, 4, 7, 1)->convert_particle();
-  std::unique_ptr<Particle> tau_1_decay_product_3=std::make_unique<Neutrino>(0, "tau", 8, 1, 2, 5)->convert_particle();
+  std::unique_ptr<Particle> tau_decay_product_1=std::make_unique<Muon>(0, 30, 5, 3, 7);
+  std::unique_ptr<Particle> tau_decay_product_2=std::make_unique<Neutrino>(0, "muon", 10, 4, 7, 1)->convert_particle();
+  std::unique_ptr<Particle> tau_decay_product_3=std::make_unique<Neutrino>(0, "tau", 8, 1, 2, 5)->convert_particle();
 
-  std::unique_ptr<Particle> tau_2_decay_product_1=std::make_unique<Muon>(0, 30, 5, 3, 7);
-  std::unique_ptr<Particle> tau_2_decay_product_2=std::make_unique<Neutrino>(0, "muon", 10, 4, 7, 1)->convert_particle();
-  std::unique_ptr<Particle> tau_2_decay_product_3=std::make_unique<Neutrino>(0, "tau", 8, 1, 2, 5)->convert_particle();
+  std::unique_ptr<Particle> antitau_decay_product_1=std::make_unique<Down>("green", 12, 2, 12, 11);
+  std::unique_ptr<Particle> antitau_decay_product_2=std::make_unique<Up>("blue", 34, 2, 25, 12)->convert_particle();
+  std::unique_ptr<Particle> antitau_decay_product_3=std::make_unique<Neutrino>(0, "tau", 11, 4, 8, 1)->convert_particle();
 
   // Instantiating the decay products of the Z boson
   std::unique_ptr<Particle> z_boson_decay_product_1=std::make_unique<Up>("green", 41, 7, 11, 6);
@@ -70,10 +71,10 @@ int main()
   particle_catalogue["antielectron"]=std::make_unique<Electron>(13, 2, 5, 4, 24, 7, 5, 9)->convert_particle();
   particle_catalogue["muon"]=std::make_unique<Muon>(1, 20, 1, 2, 3);
   particle_catalogue["antimuon"]=std::make_unique<Muon>(1, 44, 6, 11, 8)->convert_particle();
-  particle_catalogue["tau"]=std::make_unique<Tau>(std::move(tau_1_decay_product_1), std::move(tau_1_decay_product_2),
-    std::move(tau_1_decay_product_3), 27, 3, 6, 8);
-  particle_catalogue["antitau"]=std::make_unique<Tau>(std::move(tau_2_decay_product_1), std::move(tau_2_decay_product_2),
-    std::move(tau_2_decay_product_3), 18, 5, 7, 3)->convert_particle(); ///// Problem of converting decay products
+  particle_catalogue["tau"]=std::make_unique<Tau>(std::move(tau_decay_product_1), std::move(tau_decay_product_2),
+    std::move(tau_decay_product_3), 27, 3, 6, 8);
+  particle_catalogue["antitau"]=std::make_unique<Tau>(std::move(antitau_decay_product_1), std::move(antitau_decay_product_2),
+    std::move(antitau_decay_product_3), 18, 5, 7, 3)->convert_particle(); ///// Problem of converting decay products
   particle_catalogue["electron neutrino"]=std::make_unique<Neutrino>(0, "electron", 10, 2, 2, 1);
   particle_catalogue["electron antineutrino"]=std::make_unique<Neutrino>(0, "electron", 8, 1, 5, 3)->convert_particle();
   particle_catalogue["muon neutrino"]=std::make_unique<Neutrino>(0, "muon", 16, 6, 5, 1);
@@ -111,10 +112,27 @@ int main()
   std::cout<<"Number of gauge boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<GaugeBoson>()<<std::endl;
   std::cout<<"Number of scalar boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Higgs>()<<std::endl;
   
-  // Defining a new sub-container for leptons
+  // Defining a new sub-containers for leptons, quarks, gauge bosons and scalar bosons
   ParticleContainer<Particle> lepton_catalogue;
+  ParticleContainer<Particle> quark_catalogue;
+  ParticleContainer<Particle> gauge_boson_catalogue;
+  ParticleContainer<Particle> scalar_boson_catalogue;
 
   lepton_catalogue=particle_catalogue.get_sub_container_of_type<Lepton>();
+  quark_catalogue=particle_catalogue.get_sub_container_of_type<Quark>();
+  gauge_boson_catalogue=particle_catalogue.get_sub_container_of_type<GaugeBoson>();
+  scalar_boson_catalogue=particle_catalogue.get_sub_container_of_type<Higgs>();
+
+  // Printing information about all particles in the complete catalogu
+  std::cout<<"Information about all particles in the complete catalogue:"<<std::endl;
+  particle_catalogue.print_catalogue();
+
+  // Printing information about one particle (antitau for example)
+  std::cout<<"Information about the antitau:"<<std::endl;
+  lepton_catalogue.print_particle_info("antitau");
+
+  // Summing the four momenta of all particles within the complete catalogue
+  std::vector<double> sum_four_momentum=particle_catalogue.sum_four_momenta();
 
   // std::vector<std::unique_ptr<Lepton>> lepton_vector;
   // std::vector<std::unique_ptr<Lepton>>::iterator vector_iterator;
@@ -142,22 +160,22 @@ int main()
   // lepton_vector.push_back(std::make_unique<Neutrino>(0, "electron", 13.0, 1.0, 2.6, 3.0));
 
   // // A tau decaying into a muon, a muon antineutrino and a tau neutrino
-  // std::unique_ptr<Lepton> tau_1_decay_product_1{std::make_unique<Muon>(1, 13.3, 1.11, 6.5, 7.0)};
-  // std::unique_ptr<Lepton> tau_1_decay_product_2{std::make_unique<Neutrino>(0, "muon", 20.0, 5.5, 4.6, 3.0)
+  // std::unique_ptr<Lepton> tau_decay_product_1{std::make_unique<Muon>(1, 13.3, 1.11, 6.5, 7.0)};
+  // std::unique_ptr<Lepton> tau_decay_product_2{std::make_unique<Neutrino>(0, "muon", 20.0, 5.5, 4.6, 3.0)
   //   ->convert_particle()};
-  // std::unique_ptr<Lepton> tau_1_decay_product_3{std::make_unique<Neutrino>(0, "tau", 11.0, 2.0, 4.0, 3.2)};
+  // std::unique_ptr<Lepton> tau_decay_product_3{std::make_unique<Neutrino>(0, "tau", 11.0, 2.0, 4.0, 3.2)};
 
-  // lepton_vector.push_back(std::make_unique<Tau>(1, std::move(tau_1_decay_product_1), std::move(tau_1_decay_product_2),
-  //   std::move(tau_1_decay_product_3), 30.0, 6.0, 5.7, 5.0));
+  // lepton_vector.push_back(std::make_unique<Tau>(1, std::move(tau_decay_product_1), std::move(tau_decay_product_2),
+  //   std::move(tau_decay_product_3), 30.0, 6.0, 5.7, 5.0));
 
   // // A tau decaying into an antielectron, an electron neutrino an a tau antineutrino
-  // std::unique_ptr<Lepton> tau_2_decay_product_1{std::make_unique<Electron>(14.1, 2.8, 5.66, 3.4, 42.6, 21.0, 28.5, 12.0)
+  // std::unique_ptr<Lepton> antitau_decay_product_1{std::make_unique<Electron>(14.1, 2.8, 5.66, 3.4, 42.6, 21.0, 28.5, 12.0)
   //   ->convert_particle()};
-  // std::unique_ptr<Lepton> tau_2_decay_product_2{std::make_unique<Neutrino>(0, "electron", 29.4, 4.0, 2.1, 7.7)};
-  // std::unique_ptr<Lepton> tau_2_decay_product_3{std::make_unique<Neutrino>(0, "tau", 31.0, 5.4, 4.5, 1.2)->convert_particle()};
+  // std::unique_ptr<Lepton> antitau_decay_product_2{std::make_unique<Neutrino>(0, "electron", 29.4, 4.0, 2.1, 7.7)};
+  // std::unique_ptr<Lepton> antitau_decay_product_3{std::make_unique<Neutrino>(0, "tau", 31.0, 5.4, 4.5, 1.2)->convert_particle()};
 
-  // lepton_vector.push_back(std::make_unique<Tau>(1, std::move(tau_2_decay_product_1), std::move(tau_2_decay_product_2),
-  //   std::move(tau_2_decay_product_3), 38.9, 8.9, 5.1, 0.9));
+  // lepton_vector.push_back(std::make_unique<Tau>(1, std::move(antitau_decay_product_1), std::move(antitau_decay_product_2),
+  //   std::move(antitau_decay_product_3), 38.9, 8.9, 5.1, 0.9));
 
   // // Printing information about all leptons
   // for(vector_iterator=lepton_vector.begin();vector_iterator<lepton_vector.end();vector_iterator++)

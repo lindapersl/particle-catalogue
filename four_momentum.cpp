@@ -143,30 +143,29 @@ FourMomentum& FourMomentum::operator=(const FourMomentum &original_four_momentum
 
 void FourMomentum::set_four_momentum(double rest_mass, double energy, double p_x, double p_y, double p_z)
 {
+  // Initially setting the four momentum elements to the inputted values without input checking (for now)
+  particle_energy=energy;
+  momentum_x=p_x;
+  momentum_y=p_y;
+  momentum_z=p_z;
+
   // Defining a pair of double and bool to store return variables
   std::pair<double, bool> return_variables;
   return_variables=invariant_mass_calculator(rest_mass);
 
-  // Setting value of invariant mass
+  // Setting the value of (correct) invariant mass
   invariant_mass=return_variables.first;
 
-  // If four momentum is physical (and that energy is positive)
-  if((return_variables.second==1)&(energy>=0))
+  // If four momentum is not physical (or energy is not positive)
+  // (The initially set values of four momentum elements need correcting)
+  if((return_variables.second==0)||(energy<0))
   {
-    // Setting values of four momentum
-    particle_energy=energy; // Makes use of input checking in setter function
-    momentum_x=p_x;
-    momentum_y=p_y;
-    momentum_z=p_z;
-  }
+    std::cerr<<"The four momentum is not physical. It needs to follow special relativity and energy needs to be positive."
+      <<" Correct values will be set for you."<<std::endl;
 
-  else
-  {
-    std::cerr<<"The four momentum is not physical. It needs to follow special relativity. Correct values will be set for you."<<std::endl;
-
-    // Choose energy value from a random number generator
+    // Choose energy value from a random number generator (energy value has to at least be invariant mass)
     std::random_device random_number;
-    std::uniform_real_distribution<double> energy_distribution(invariant_mass, (invariant_mass*10));
+    std::uniform_real_distribution<double> energy_distribution(invariant_mass, 200000); // An arbitrary, high number chosen for the upper bound
 
     particle_energy=energy_distribution(random_number);
 
@@ -177,6 +176,12 @@ void FourMomentum::set_four_momentum(double rest_mass, double energy, double p_x
     momentum_y=equal_momentum_components;
     momentum_z=equal_momentum_components;
   }
+
+  // Setting values of the four momentum vector
+  four_momentum_vector[0]=particle_energy;
+  four_momentum_vector[1]=momentum_x;
+  four_momentum_vector[2]=momentum_y;
+  four_momentum_vector[3]=momentum_z;
 }
 
 // Function to calculate invariant mass
@@ -255,46 +260,56 @@ std::pair<double, bool> FourMomentum::invariant_mass_calculator(double rest_mass
 // Friend functions:
 
 // Overloaded sum operator
-std::vector<double> operator+(const Particle& particle_1, const Particle& particle_2)
+// std::vector<double> operator+(const Particle& particle_1, const Particle& particle_2)
+// {
+//   double sum_energy, sum_p_x, sum_p_y, sum_p_z;
+//   std::vector<double> summed_four_momenta;
+
+//   sum_energy=particle_1.four_momentum_ptr->get_energy()+particle_2.four_momentum_ptr
+//     ->get_energy();
+//   sum_p_x=particle_1.four_momentum_ptr->get_momentum_x()+particle_2.four_momentum_ptr
+//     ->get_momentum_x();
+//   sum_p_y=particle_1.four_momentum_ptr->get_momentum_y()+particle_2.four_momentum_ptr
+//     ->get_momentum_y();
+//   sum_p_z=particle_1.four_momentum_ptr->get_momentum_z()+particle_2.four_momentum_ptr
+//     ->get_momentum_z();
+
+//   summed_four_momenta.push_back(sum_energy);
+//   summed_four_momenta.push_back(sum_p_x);
+//   summed_four_momenta.push_back(sum_p_y);
+//   summed_four_momenta.push_back(sum_p_z);
+
+//   return summed_four_momenta;
+// }
+
+std::vector<double> operator+(const std::vector<double>& four_momentum_vector, const Particle& particle_1)
 {
   double sum_energy, sum_p_x, sum_p_y, sum_p_z;
   std::vector<double> summed_four_momenta;
 
-  sum_energy=particle_1.four_momentum_ptr->get_energy()+particle_2.four_momentum_ptr
-    ->get_energy();
-  sum_p_x=particle_1.four_momentum_ptr->get_momentum_x()+particle_2.four_momentum_ptr
-    ->get_momentum_x();
-  sum_p_y=particle_1.four_momentum_ptr->get_momentum_y()+particle_2.four_momentum_ptr
-    ->get_momentum_y();
-  sum_p_z=particle_1.four_momentum_ptr->get_momentum_z()+particle_2.four_momentum_ptr
-    ->get_momentum_z();
+  sum_energy=particle_1.four_momentum_ptr->get_energy()+four_momentum_vector[0];
+  sum_p_x=particle_1.four_momentum_ptr->get_momentum_x()+four_momentum_vector[1];
+  sum_p_y=particle_1.four_momentum_ptr->get_momentum_y()+four_momentum_vector[2];
+  sum_p_z=particle_1.four_momentum_ptr->get_momentum_z()+four_momentum_vector[3];
 
   summed_four_momenta.push_back(sum_energy);
   summed_four_momenta.push_back(sum_p_x);
   summed_four_momenta.push_back(sum_p_y);
   summed_four_momenta.push_back(sum_p_z);
 
-  std::cout<<"\nThe sum of the four-momenta (E/c, p_x, p_y, p_z)= ("<<std::setprecision(3)
-    <<sum_energy<<", "<<std::setprecision(3)<<sum_p_x<<", "<<std::setprecision(3)<<sum_p_y<<
-      ", "<<std::setprecision(3)<<sum_p_z<<")\n"<<std::endl;
-
   return summed_four_momenta;
 }
 
 // Overloaded subtraction operator
-std::vector<double> operator-(const Particle& particle_1, const Particle& particle_2)
+std::vector<double> operator-(const std::vector<double>& four_momentum_vector, const Particle& particle_1)
 {
   double subtracted_energy, subtracted_p_x, subtracted_p_y, subtracted_p_z;
   std::vector<double> subtracted_four_momenta;
 
-  subtracted_energy=particle_1.four_momentum_ptr->get_energy()-particle_2.four_momentum_ptr
-    ->get_energy();
-  subtracted_p_x=particle_1.four_momentum_ptr->get_momentum_x()-particle_2.four_momentum_ptr
-    ->get_momentum_x();
-  subtracted_p_y=particle_1.four_momentum_ptr->get_momentum_y()-particle_2.four_momentum_ptr
-    ->get_momentum_y();
-  subtracted_p_z=particle_1.four_momentum_ptr->get_momentum_z()-particle_2.four_momentum_ptr
-    ->get_momentum_z();
+  subtracted_energy=particle_1.four_momentum_ptr->get_energy()-four_momentum_vector[0];
+  subtracted_p_x=particle_1.four_momentum_ptr->get_momentum_x()-four_momentum_vector[1];
+  subtracted_p_y=particle_1.four_momentum_ptr->get_momentum_y()-four_momentum_vector[2];
+  subtracted_p_z=particle_1.four_momentum_ptr->get_momentum_z()-four_momentum_vector[3];
 
   subtracted_four_momenta.push_back(subtracted_energy);
   subtracted_four_momenta.push_back(subtracted_p_x);

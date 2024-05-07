@@ -78,10 +78,10 @@ class Particle
     // void calculate_invariant_mass() {four_momentum_ptr->invariant_mass_calculator(rest_mass_energy);}
 
     // Friend function: overloaded sum operator of two four-momenta
-    friend std::vector<double> operator+(const Particle& particle_1, const Particle& particle_2);
+    friend std::vector<double> operator+(const std::vector<double>& four_momentum_vector, const Particle& particle_1);
 
     // Friend function: overloaded subtraction operator of two four-momenta
-    friend std::vector<double> operator-(const Particle& particle_1, const Particle& particle_2);
+    friend std::vector<double> operator-(const std::vector<double>& four_momentum_vector, const Particle& particle_1);
 
     // Friend function: dot product of two four-momenta
     friend double dotProduct(const Particle& particle_1, const Particle& particle_2);
