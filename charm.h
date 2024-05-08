@@ -17,21 +17,17 @@
 
 class Charm : public Quark
 {
-  private:
-
-  protected:
-
   public:
     // Default constructor
-    Charm() : Quark() {std::cout<<"Default constructor called in Charm class for a "
-      <<particle_type<<"."<<std::endl;}
+    Charm() : Quark() {};
 
-    // Parameterised constructor (all charm quarks have baryon number=1/3, charge=2/3 and rest mass=1280 MeV/c^2 so this is set here)
+    // Parameterised constructor (all charm quarks have baryon number=1/3, charge=2/3 and rest mass=1280 MeV/c^2
+    // so this is set here)
     Charm(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667,
       "charm", 1280, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
-    virtual ~Charm() {std::cout<<"Destructor called in Charm class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Charm() {};
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Charm>(*this);}

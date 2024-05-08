@@ -4,7 +4,7 @@
 // Implementation of Particle class member functions
 
 // Author: Linda Persley (student ID: 10683097)
-// Date: 12/05/2024
+// Date: 12/05/2524
 
 #include<iostream>
 #include<vector>
@@ -32,9 +32,7 @@ Particle::Particle(const Particle &original_particle)
   particle_spin=original_particle.particle_spin;
   particle_type=original_particle.particle_type;
   rest_mass_energy=original_particle.rest_mass_energy;
-  four_momentum_ptr=std::make_unique<FourMomentum>(*(original_particle.get_four_momentum_ptr())); // Ensures deep copying
-
-  std::cout<<"Copy constructor called in Particle class for a "<<particle_type<<"."<<std::endl;
+  four_momentum_ptr=std::make_unique<FourMomentum>(*(original_particle.get_four_momentum_ptr()));
 }
 
 // Move constructor
@@ -47,13 +45,11 @@ Particle::Particle(Particle &&original_particle)
   rest_mass_energy=original_particle.rest_mass_energy;
   four_momentum_ptr=std::move(original_particle.four_momentum_ptr);
 
-  // Resets data members of the original particle (unique pointer taken care of automatically)
+  // Resetting data members of the original particle (unique pointer taken care of automatically)
   original_particle.set_charge(0);
   original_particle.set_spin(0);
   original_particle.set_type(0);
   original_particle.set_rest_mass(0);
-
-  std::cout<<"Move constructor called in Particle class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move assignment operator
@@ -77,13 +73,11 @@ Particle& Particle::operator=(Particle &&original_particle)
     rest_mass_energy=original_particle.rest_mass_energy;
     four_momentum_ptr=std::move(original_particle.four_momentum_ptr);
     
-    // Resets data members of the original particle (unique pointer taken care of automatically)
+    // Resetting data members of the original particle (unique pointer taken care of automatically)
     original_particle.set_charge(0);
     original_particle.set_spin(0);
     original_particle.set_type(0);
     original_particle.set_rest_mass(0);
-
-    std::cout<<"Move assignment called in Particle class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -109,9 +103,6 @@ Particle& Particle::operator=(const Particle &original_particle)
     particle_type=original_particle.particle_type;
     rest_mass_energy=original_particle.rest_mass_energy;
     four_momentum_ptr=std::make_unique<FourMomentum>(*(original_particle.get_four_momentum_ptr()));
-    // The above ensures deep copying
-
-    std::cout<<"Copy assignment called in Particle class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -120,12 +111,16 @@ Particle& Particle::operator=(const Particle &original_particle)
 // Print function
 void Particle::print_info()
 {
+  // Only print if four_momentum_ptr in a valid state
   if(four_momentum_ptr!=nullptr)
   {
-    std::cout<<"Particle type = "<<particle_type<<"\nCharge = "<<std::setprecision(3)<<particle_charge<<"\nSpin = "<<
-      particle_spin<<"\nRest mass = "<<std::setprecision(3)<<rest_mass_energy<<"\nFour momentum (E/c, p_x, p_y, p_z) = ("
-        <<std::setprecision(3)<<four_momentum_ptr->get_energy()<<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_x()
-          <<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_y()<<", "<<std::setprecision(3)<<
-            four_momentum_ptr->get_momentum_z()<<")"<<std::endl;
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Particle type = "<<std::right<<std::setfill('.')<<std::setw(28)<<particle_type
+    <<std::left<<std::setfill('.')<<std::setw(25)<<"\nCharge = "<<std::right<<std::setfill('.')<<std::setw(27)<<std::setprecision(3)<<particle_charge<<" u"
+    <<std::left<<std::setfill('.')<<std::setw(25)<<"\nSpin = "<<std::right<<std::setfill('.')<<std::setw(25)<<particle_spin<<
+    std::left<<std::setfill('.')<<std::setw(25)<<"\nRest mass = "<<std::right<<std::setfill('.')<<std::setw(25)<<std::setprecision(3)<<rest_mass_energy<<" MeV/c^2"
+    <<std::left<<std::setfill('.')<<std::setw(25)<<"\nFour momentum (E/c, p_x, p_y, p_z) = "<<std::right<<std::setfill('.')<<std::setw(10)
+      <<"("<<std::setprecision(3)<<four_momentum_ptr->get_energy()<<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_x()
+        <<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_y()<<", "<<std::setprecision(3)<<
+          four_momentum_ptr->get_momentum_z()<<") MeV/c"<<std::endl;
   }
 }

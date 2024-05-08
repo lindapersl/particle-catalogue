@@ -26,15 +26,14 @@ Higgs::Higgs(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> par
 // Copy constructor
 Higgs::Higgs(const Higgs &original_boson) : Particle(original_boson)
 {
-  // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+  // Using the clone function to deep copy the decay products of the original particle by iterating over each element
   std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-  for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
+  for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();
+    vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
-
-  std::cout<<"Copy constructor called in Higgs class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move constructor
@@ -44,8 +43,6 @@ Higgs::Higgs(Higgs &&original_boson) : Particle(std::move(original_boson))
   decay_products=std::move(original_boson.decay_products);
 
   // The data member of the original particle is reset automatically when moving a unique pointer
-
-  std::cout<<"Move constructor called in Higgs class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move assignment operator
@@ -70,8 +67,6 @@ Higgs& Higgs::operator=(Higgs &&original_boson)
     decay_products=std::move(original_boson.decay_products);
 
     // The data member of the original particle is reset automatically when moving a unique pointer
-
-    std::cout<<"Move assignment called in Higgs class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -94,15 +89,14 @@ Higgs& Higgs::operator=(const Higgs &original_boson)
     // Calling the equivalent base class operator
     Particle::operator=(original_boson);
 
-    // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+    // Using the clone function to deep copy the decay products of the original particle by iterating over each element
     std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
-    for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
+    for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();
+      vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }
-
-    std::cout<<"Copy assignment called in Higgs class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -120,55 +114,34 @@ void Higgs::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<P
     // Ensuring the decay product vector is empty before appending
     if(decay_products.size()!=0)
     {
-      std::cerr<<"The decay product vector of this higgs boson was not empty. It will be cleared and filled with your new particles"
-        <<std::endl;
+      std::cerr<<"The decay product vector of this higgs boson was not empty. It will be cleared and filled with your new"
+        <<" particles"<<std::endl;
 
       decay_products.clear();
     }
 
     decay_products.push_back(std::move(particle_1));
-    decay_products.push_back(std::move(particle_2)); /// or clone?
+    decay_products.push_back(std::move(particle_2));
   }
-
-  // else if(abs(sum_product_charge)==abs(get_charge()))
-  // {
-  //   // This scenario can happen if an antiHiggs particle is instatiated - should be 
-  //   // Ensuring the decay product vector is empty before appending
-  //   if(decay_products.size()!=0)
-  //   {
-  //     std::cerr<<"The decay product vector of this Higgs particle was not empty.\nIt will be cleared and filled with your new particles"
-  //       <<std::endl;
-
-  //     decay_products.clear();
-  //   }
-
-  //   decay_products.push_back(particle_1->clone());
-  //   decay_products.push_back(particle_2->clone());
-  //   decay_products.push_back(particle_3->clone());
-  // }
 
   else
   {
-    std::cerr<<"The sum of decay product charges does not add up to the higgs boson charge, so no decay products were set."<<std::endl;
+    std::cerr<<"The sum of decay product charges does not add up to the higgs boson charge, so no decay products were set."
+      <<std::endl;
   }
 }
 
 // Print function
 void Higgs::print_info()
 {
-  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))//&(decay_product_1!=nullptr)&(decay_product_2!=nullptr)&(decay_product_3!=nullptr))
+  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))
   {
     // Calling the equivalent Particle class function
     Particle::print_info();
 
-      std::cout<<"Particles the higgs-boson decays to = "<<decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<std::endl;
+      std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Particles the higgs-boson decays to = "<<std::right<<
+        std::setfill('.')<<std::setw(18)<<decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<std::endl;
   }
-
-  // else if((four_momentum_ptr==nullptr)||(decay_product_1==nullptr)||(decay_product_2==nullptr)||(decay_product_3==nullptr))
-  // {
-  //   std::cerr<<"At least one of the smart pointers (four momentum pointer or one of the decay product pointers) is a null pointer,"
-  //     <<"hence information about the Particle's four momentum and/or decay products cannot be printed.\n"<<std::endl;
-  // }
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
@@ -178,13 +151,13 @@ void Higgs::print_info()
 
   else if((four_momentum_ptr!=nullptr)&(decay_products.size()==0))
   {
-    std::cerr<<"The decay product vector of this tau particle was empty, hence information about the "<<particle_type<<
-      "'s produced particles cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" was empty, hence information about its "<<
+      "produced particles cannot be printed."<<std::endl;
   }
 
   else
   {
-    std::cerr<<"The decay product vector of this tau particle was empty and four momentum pointer is a null pointer,"
-      <<" hence information about the "<<particle_type<<" cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" was empty and four momentum pointer is a null pointer,"
+      <<" hence information about it cannot be printed."<<std::endl;
   }
 }

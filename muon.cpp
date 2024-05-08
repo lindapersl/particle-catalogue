@@ -23,16 +23,16 @@ void Muon::print_info()
     // Calling the equivalent lepton class function
     Lepton::print_info();
 
-    std::cout<<"Muon isolation information = ";
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Muon isolation information = ";
 
     if(isolation_info == 0)
     {
-      std::cout<<"Not isolated"<<std::endl;
+      std::cout<<std::right<<std::setfill('.')<<std::setw(25)<<"Not isolated"<<std::endl;
     }
 
     else if(isolation_info == 1)
     {
-      std::cout<<"Isolated"<<std::endl;
+      std::cout<<std::right<<std::setfill('.')<<std::setw(25)<<"Isolated"<<std::endl;
     }
   }
 

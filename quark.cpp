@@ -55,9 +55,12 @@ void Quark::set_b_number(double b_number)
 void Quark::set_colour(std::string colour)
 {
   // Checking if colour charge is consistent with whether the quark is a particle or an antiparticle
-  if(baryon_number==0.333) // If the quark is a particle
+
+  // If the quark is a particle
+  if(baryon_number==0.333)
   {
-    if((colour.substr(0, 4))!="anti") // If the colour charge is a colour
+    // If the colour charge is a colour
+    if((colour.substr(0, 4))!="anti")
     {
       colour_charge=colour;
     }
@@ -69,9 +72,11 @@ void Quark::set_colour(std::string colour)
     }
   }
 
-  else if(baryon_number==-0.333) // If the quark is an antiparticle
+  // If the quark is an antiparticle
+  else if(baryon_number==-0.333)
   {
-    if((colour.substr(0, 4))=="anti") // If the colour charge is an anti-colour
+    // If the colour charge is an anti-colour
+    if((colour.substr(0, 4))=="anti")
     {
       colour_charge=colour;
     }
@@ -92,13 +97,16 @@ std::unique_ptr<Particle> Quark::convert_particle()
   baryon_number*=-1;
 
   // Changing the particle type and colour charge accordingly
-  if(baryon_number<0) // If quark should be antiparticle after conversion
+
+  // If quark should be antiparticle after conversion
+  if(baryon_number<0)
   {
     particle_type="anti"+particle_type;
     set_colour("anti"+colour_charge); // Makes use of input checking in setter function
   }
 
-  else if(baryon_number>0) // If quark should be its particle after conversion
+  // If quark should be its particle after conversion
+  else if(baryon_number>0)
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -115,7 +123,8 @@ void Quark::print_info()
   {
     Particle::print_info();
 
-    std::cout<<"Baryon number = "<<baryon_number<<"\nColour charge = "<<colour_charge<<std::endl;
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Baryon number = "<<std::right<<std::setfill('.')<<std::setw(25)<<baryon_number
+    <<std::left<<std::setfill('.')<<std::setw(25)<<"\nColour charge = "<<std::right<<std::setfill('.')<<std::setw(25)<<colour_charge<<std::endl;
   }
 
   else

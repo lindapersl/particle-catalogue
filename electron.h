@@ -20,15 +20,11 @@ class Electron : public Lepton
 {
   private:
     // Data members
-    // double energy_layer_1{};
-    // double energy_layer_2{};
-    // double energy_layer_3{};
-    // double energy_layer_4{};
     std::vector<double> deposited_energy{0, 0, 0, 0};
     
   public:
     // Default constructor
-    Electron() : Lepton() {std::cout<<"Default constructor called in Electron class for a "<<particle_type<<"."<<std::endl;}
+    Electron() : Lepton() {};
 
     // Parameterised constructor
     Electron(double layer_1, double layer_2, double layer_3, double layer_4, double energy, double p_x, double p_y, double p_z);
@@ -40,7 +36,7 @@ class Electron : public Lepton
     Electron(Electron &&original_lepton);
     
     // Destructor
-    virtual ~Electron() {std::cout<<"Destructor called in Electron class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Electron() {};
 
     // Move assignment operator
     Electron& operator=(Electron &&original_lepton);
@@ -49,18 +45,17 @@ class Electron : public Lepton
     Electron& operator=(const Electron &original_lepton);
 
     // Getter functions
-    // double get_layer_1() const {return energy_layer_1;}
-    // double get_layer_2() const {return energy_layer_2;}
-    // double get_layer_3() const {return energy_layer_3;}
-    // double get_layer_4() const {return energy_layer_4;} ////// can return element of deposited energy?
+    double get_layer_1() const {return deposited_energy[0];}
+    double get_layer_2() const {return deposited_energy[1];}
+    double get_layer_3() const {return deposited_energy[2];}
+    double get_layer_4() const {return deposited_energy[3];}
     std::vector<double> get_deposited_energy() const {return deposited_energy;}
 
     // Setter functions
-    // void set_layer_1(double layer_1);
-    // void set_layer_2(double layer_2);
-    // void set_layer_3(double layer_3);
-    // void set_layer_4(double layer_4);
     void set_deposited_energy(double layer_1, double layer_2, double layer_3, double layer_4);
+
+    // Function to reset deposited energy values to zero regardless of electron's four momenta
+    void reset_deposited_energy();
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Electron>(*this);}

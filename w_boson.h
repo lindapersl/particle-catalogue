@@ -25,7 +25,7 @@ class WBoson : public GaugeBoson
 
   public:
     // Default constructor
-    WBoson() : GaugeBoson() {std::cout<<"Default constructor called in WBoson class for a "<<particle_type<<"."<<std::endl;}
+    WBoson() : GaugeBoson() {};
 
     // Parameterised contructor
     WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy,
@@ -38,7 +38,7 @@ class WBoson : public GaugeBoson
     WBoson(WBoson &&original_boson);
 
     // Deconstructor
-    virtual ~WBoson() {std::cout<<"Destructor called in WBoson class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~WBoson() {};
 
     // Move assignment operator
     WBoson& operator=(WBoson &&original_boson);

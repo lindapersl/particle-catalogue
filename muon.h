@@ -23,15 +23,14 @@ class Muon : public Lepton
 
   public:
     // Default constructor
-    Muon() : Lepton() {std::cout<<"Default constructor called in Muon class for a "
-      <<particle_type<<"."<<std::endl;}
+    Muon() : Lepton() {};
 
     // Parameterised constructor (all muons have lepton number=1, charge=-1 and rest mass=105.66 MeV/c^2 so these are set here)
     Muon(bool isolated, double energy, double p_x, double p_y, double p_z) : Lepton(1, -1, "muon", 105.66, energy, p_x, p_y, p_z),
       isolation_info(isolated) {};
 
     // Deconstructor
-    virtual ~Muon() {std::cout<<"Destructor called in Muon class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Muon() {};
 
     // Getter function
     bool get_isolation() const {return isolation_info;}

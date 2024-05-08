@@ -24,7 +24,7 @@ class Higgs : public Particle
 
   public:
     // Default constructor
-    Higgs() : Particle() {std::cout<<"Default constructor called in Higgs class for a "<<particle_type<<"."<<std::endl;}
+    Higgs() : Particle() {};
 
     // Parameterised contructor
     Higgs(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy, double p_x, double p_y, double p_z);
@@ -36,7 +36,7 @@ class Higgs : public Particle
     Higgs(Higgs &&original_boson);
 
     // Deconstructor
-    virtual ~Higgs() {std::cout<<"Destructor called in Higgs class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Higgs() {};
 
     // Move assignment operator
     Higgs& operator=(Higgs &&original_boson);
@@ -50,7 +50,8 @@ class Higgs : public Particle
     // Setter function
     void set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2);
 
-    // Function to convert between particles and antiparticles (The Higgs doesn't have an antiparticle, thus a clone of its particle is returned.)
+    // Function to convert between particles and antiparticles (The Higgs doesn't have an antiparticle,
+    // thus a clone of its particle is returned as this should be overridden here.)
     std::unique_ptr<Particle> convert_particle() {return std::make_unique<Higgs>(*this);}
 
     // Overriden clone function

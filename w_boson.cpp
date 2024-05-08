@@ -19,7 +19,7 @@
 // Parameterised constructor (all W bosons have charge=-1 (W(-) should be instatiated initially) and rest mass=80360 MeV/c^2,
 // so these are set here)
 WBoson::WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy,
-  double p_x, double p_y, double p_z) : GaugeBoson(-1, "W-boson", 80360, energy, p_x, p_y, p_z)
+  double p_x, double p_y, double p_z) : GaugeBoson(-1, "W- boson", 80360, energy, p_x, p_y, p_z)
 {
   set_products(std::move(particle_1), std::move(particle_2)); // Input checking done within setter function
 }
@@ -27,15 +27,13 @@ WBoson::WBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> p
 // Copy constructor
 WBoson::WBoson(const WBoson &original_boson) : GaugeBoson(original_boson)
 {
-  // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+  // Using the clone function to deep copy the decay products of the original particle by iterating over each element
   std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
   for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
-
-  std::cout<<"Copy constructor called in WBoson class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move constructor
@@ -45,8 +43,6 @@ WBoson::WBoson(WBoson &&original_boson) : GaugeBoson(std::move(original_boson))
   decay_products=std::move(original_boson.decay_products);
 
   // The data member of the original particle is reset automatically when moving a unique pointer
-
-  std::cout<<"Move constructor called in WBoson class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move assignment operator
@@ -71,8 +67,6 @@ WBoson& WBoson::operator=(WBoson &&original_boson)
     decay_products=std::move(original_boson.decay_products);
 
     // The data member of the original particle is reset automatically when moving a unique pointer
-
-    std::cout<<"Move assignment called in WBoson class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -95,15 +89,13 @@ WBoson& WBoson::operator=(const WBoson &original_boson)
     // Calling the equivalent base class operator
     Particle::operator=(original_boson);
 
-    // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+    // Using the clone function to deep copy the decay products of the original particle by iterating over each element
     std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
     for(vector_iterator=(original_boson.decay_products).begin();vector_iterator<(original_boson.decay_products).end();vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }
-
-    std::cout<<"Copy assignment called in WBoson class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -128,25 +120,8 @@ void WBoson::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<
     }
 
     decay_products.push_back(std::move(particle_1));
-    decay_products.push_back(std::move(particle_2)); /// or clone?
+    decay_products.push_back(std::move(particle_2));
   }
-
-  // else if(abs(sum_product_charge)==abs(get_charge()))
-  // {
-  //   // This scenario can happen if an antiWBoson particle is instatiated - should be 
-  //   // Ensuring the decay product vector is empty before appending
-  //   if(decay_products.size()!=0)
-  //   {
-  //     std::cerr<<"The decay product vector of this WBoson particle was not empty.\nIt will be cleared and filled with your new particles"
-  //       <<std::endl;
-
-  //     decay_products.clear();
-  //   }
-
-  //   decay_products.push_back(particle_1->clone());
-  //   decay_products.push_back(particle_2->clone());
-  //   decay_products.push_back(particle_3->clone());
-  // }
 
   else
   {
@@ -160,28 +135,19 @@ std::unique_ptr<Particle> WBoson::convert_particle()
   // Negating the charge
   particle_charge*=-1;
 
-  // convert_and_set_products(std::move(decay_products[0]), std::move(decay_products[1]), std::move(decay_products[2]));
+  // Converting each decay product and setting them to the data member
   set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()));
 
-  // std::unique_ptr<Particle> converted_product_1{decay_products[0]->convert_particle()}; ////// std::move?
-  // std::unique_ptr<Particle> converted_product_2{decay_products[1]->convert_particle()};
-  // std::unique_ptr<Particle> converted_product_3{decay_products[2]->convert_particle()};
-
-
-  // set_products(std::move(converted_product_1), std::move(converted_product_2), std::move(converted_product_3));
-  
-
-  // set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()),
-  //   std::move(decay_products[2]->convert_particle()));
-
-  if(particle_charge<0) // If w-boson should be W(-) after conversion
+  // If w-boson should be W(-) after conversion
+  if(particle_charge<0)
   {
-    particle_type="W(-)-boson";
+    particle_type="W- boson";
   }
 
-  else if(particle_charge>0) // If w-boson should be W(+) after conversion
+  // If w-boson should be W(+) after conversion
+  else if(particle_charge>0)
   {
-    particle_type="W(+)-boson";
+    particle_type="W+ boson";
   }
 
   return std::make_unique<WBoson>(*this);
@@ -190,19 +156,14 @@ std::unique_ptr<Particle> WBoson::convert_particle()
 // Print function
 void WBoson::print_info()
 {
-  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))//&(decay_product_1!=nullptr)&(decay_product_2!=nullptr)&(decay_product_3!=nullptr))
+  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))
   {
     // Calling the equivalent GaugeBoson class function
     GaugeBoson::print_info();
 
-      std::cout<<"Particles the w-boson decays to = "<<decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<std::endl;
+      std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Particles the w-boson decays to = "<<std::right<<std::setfill('.')<<std::setw(18)
+        <<decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<std::endl;
   }
-
-  // else if((four_momentum_ptr==nullptr)||(decay_product_1==nullptr)||(decay_product_2==nullptr)||(decay_product_3==nullptr))
-  // {
-  //   std::cerr<<"At least one of the smart pointers (four momentum pointer or one of the decay product pointers) is a null pointer,"
-  //     <<"hence information about the GaugeBoson's four momentum and/or decay products cannot be printed.\n"<<std::endl;
-  // }
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
@@ -212,13 +173,13 @@ void WBoson::print_info()
 
   else if((four_momentum_ptr!=nullptr)&(decay_products.size()==0))
   {
-    std::cerr<<"The decay product vector of this tau particle was empty, hence information about the "<<particle_type<<
-      "'s produced particles cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" was empty, hence information about the its "<<
+      "produced particles cannot be printed."<<std::endl;
   }
 
   else
   {
-    std::cerr<<"The decay product vector of this tau particle was empty and four momentum pointer is a null pointer,"
-      <<" hence information about the "<<particle_type<<" cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" was empty and four momentum pointer is a null pointer,"
+      <<" hence information about it cannot be printed."<<std::endl;
   }
 }

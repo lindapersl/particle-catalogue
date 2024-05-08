@@ -18,20 +18,18 @@
 class Gluon : public GaugeBoson
 {
   private:
-  std::string colour_charge_1{"ghost"};
-  std::string colour_charge_2{"ghost"};
-
-  protected:
+    std::string colour_charge_1{"ghost"};
+    std::string colour_charge_2{"ghost"};
 
   public:
     // Default constructor
-    Gluon() : GaugeBoson() {std::cout<<"Default constructor called in Gluon class for a "<<particle_type<<"."<<std::endl;}
+    Gluon() : GaugeBoson() {}
 
     // Parameterised constructor
     Gluon(std::string colour_1, std::string colour_2, double energy, double p_x, double p_y, double p_z);
 
     // Deconstructor
-    virtual ~Gluon() {std::cout<<"Destructor called in Gluon class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Gluon() {};
 
     // Setter function
     void set_colours(std::string colour_1, std::string colour_2);

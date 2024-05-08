@@ -18,8 +18,6 @@
 
 class Particle
 {
-  private:
-
   protected:
     //Data members
     double particle_charge{};
@@ -30,7 +28,7 @@ class Particle
 
   public:
     // Default constructor
-    Particle() {std::cout<<"Default constructor called in Particle class for a "<<particle_type<<"."<<std::endl;}
+    Particle() {};
 
     // Parameterised constructor
     Particle(double charge, double spin, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z);
@@ -42,7 +40,7 @@ class Particle
     Particle(Particle &&original_Particle);
 
     // Destructor
-    virtual ~Particle() {std::cout<<"Destructor called in Particle class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Particle() {};
 
     // Move assignment operator
     virtual Particle& operator=(Particle &&original_Particle);
@@ -74,16 +72,13 @@ class Particle
     // Print function
     virtual void print_info();
 
-    // // Function to pass rest mass to 'invariant_mass_calculator' inside four momentum class
-    // void calculate_invariant_mass() {four_momentum_ptr->invariant_mass_calculator(rest_mass_energy);}
-
-    // Friend function: overloaded sum operator of two four-momenta
+    // Friend function: overloaded sum operator of four-momentum
     friend std::vector<double> operator+(const std::vector<double>& four_momentum_vector, const Particle& particle_1);
 
-    // Friend function: overloaded subtraction operator of two four-momenta
-    friend std::vector<double> operator-(const std::vector<double>& four_momentum_vector, const Particle& particle_1);
+    // Friend function: overloaded subtraction operator of four-momentum
+    friend std::vector<double> operator-(const Particle& particle_1, const Particle& particle_2);
 
-    // Friend function: dot product of two four-momenta
+    // Friend function: (relativistic) dot product of four-momentum
     friend double dotProduct(const Particle& particle_1, const Particle& particle_2);
 };
 

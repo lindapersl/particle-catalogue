@@ -17,21 +17,17 @@
 
 class Down : public Quark
 {
-  private:
-
-  protected:
-
   public:
     // Default constructor
-    Down() : Quark() {std::cout<<"Default constructor called in Down class for a "
-      <<particle_type<<"."<<std::endl;}
+    Down() : Quark() {};
 
-    // Parameterised constructor (all down quarks have baryon number=1/3, charge=-1/3 and rest mass=4.7 MeV/c^2, so this is set here)
+    // Parameterised constructor (all down quarks have baryon number=1/3, charge=-1/3 and rest mass=4.7 MeV/c^2,
+    // so this is set here)
     Down(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, -0.333,
       "down", 4.7, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
-    virtual ~Down() {std::cout<<"Destructor called in Down class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Down() {};
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Down>(*this);}

@@ -17,23 +17,21 @@
 
 class Quark : public Particle
 {
-  private:
-
   protected:
-  double baryon_number{};
-  std::string colour_charge{"ghost"};
+    double baryon_number{};
+    std::string colour_charge{"ghost"};
 
 
   public:
     // Default constructor
-    Quark() : Particle() {std::cout<<"Default constructor called in Quark class for a "<<particle_type<<"."<<std::endl;}
+    Quark() : Particle() {};
 
     // Parameterised constructor
     Quark(double b_number, std::string colour, double charge, std::string type, double rest_mass, double energy, double p_x,
       double p_y, double p_z);
 
     // Destructor
-    virtual ~Quark() {std::cout<<"Destructor called in Quark class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Quark() {};
 
     // Setter functions
     void set_b_number(double b_number);

@@ -17,21 +17,17 @@
 
 class Strange : public Quark
 {
-  private:
-
-  protected:
-
   public:
     // Default constructor
-    Strange() : Quark() {std::cout<<"Default constructor called in Strange class for a "
-      <<particle_type<<"."<<std::endl;}
+    Strange() : Quark() {};
 
-    // Parameterised constructor (all strange quarks have baryon number=1/3, charge=-1/3 and rest mass=96 MeV/c^2 so these are set here)
+    // Parameterised constructor (all strange quarks have baryon number=1/3, charge=-1/3 and rest mass=96 MeV/c^2
+    // so these are set here)
     Strange(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, -0.333,
       "strange", 96, energy, p_x, p_y, p_z) {};
 
     // Deconstructor
-    virtual ~Strange() {std::cout<<"Destructor called in Strange class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Strange() {};
 
     // Overriden clone function
     std::unique_ptr<Particle> clone() const {return std::make_unique<Strange>(*this);}

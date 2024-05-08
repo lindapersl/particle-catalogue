@@ -8,6 +8,7 @@
 
 #include<iostream>
 #include<string>
+#include<iomanip>
 
 #include"particle.h"
 #include"gauge_boson.h"
@@ -43,23 +44,28 @@ std::unique_ptr<Particle> Gluon::convert_particle()
   // (No need to negate the charge as it is zero for gluons)
 
   // Changing the particle type and colour charges
-  if(particle_type.substr(0, 4)!="anti") // If particle is converting from particle to antiparticle
+
+  // If particle is converting from particle to antiparticle
+  if(particle_type.substr(0, 4)!="anti")
   {
     particle_type="anti"+particle_type;
   }
 
-  else if(particle_type.substr(0, 4)=="anti") // If particle is converting from antiparticle to particle
+  // If particle is converting from antiparticle to particle
+  else if(particle_type.substr(0, 4)=="anti")
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
   }
 
-  if(((colour_charge_1.substr(0, 4))!="anti")&((colour_charge_2.substr(0, 4))=="anti")) // If changing colour_charge_1 to anticolour and colour_charge_2 to colour
+  // If changing colour_charge_1 to anticolour and colour_charge_2 to colour
+  if(((colour_charge_1.substr(0, 4))!="anti")&((colour_charge_2.substr(0, 4))=="anti"))
   {
     set_colours("anti"+colour_charge_1, colour_charge_2.erase(0, 4)); // Makes use of input checking in setter function
   }
 
-  else if(((colour_charge_1.substr(0, 4))=="anti")&((colour_charge_2.substr(0, 4))!="anti")) // If changing colour_charge_1 to colour and colour_charge_2 to anticolour
+  // If changing colour_charge_1 to colour and colour_charge_2 to anticolour
+  else if(((colour_charge_1.substr(0, 4))=="anti")&((colour_charge_2.substr(0, 4))!="anti"))
   {
     set_colours(colour_charge_1.erase(0, 4), "anti"+colour_charge_2);
   }
@@ -74,7 +80,8 @@ void Gluon::print_info()
   {
     Particle::print_info();
 
-    std::cout<<"Colour charge combination = "<<colour_charge_1<<" and "<<colour_charge_2<<std::endl;
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Colour charge combination = "<<std::right<<std::setfill('.')<<std::setw(25)<<colour_charge_1
+      <<" and "<<colour_charge_2<<std::endl;
   }
 
   else

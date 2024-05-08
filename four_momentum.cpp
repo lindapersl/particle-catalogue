@@ -33,8 +33,6 @@ FourMomentum::FourMomentum(const FourMomentum &original_four_momentum)
   momentum_y=original_four_momentum.momentum_y;
   momentum_z=original_four_momentum.momentum_z;
   four_momentum_vector=original_four_momentum.four_momentum_vector;
-
-  std::cout<<"Copy constructor called in FourMomentum class."<<std::endl;
 }
 
 // Move constructor
@@ -51,12 +49,6 @@ FourMomentum::FourMomentum(FourMomentum &&original_four_momentum)
   // Resets data members of the original particle
   original_four_momentum.set_invariant_mass(0);
   original_four_momentum.set_four_momentum(0, 0, 0, 0, 0);
-  // original_four_momentum.set_energy(0);
-  // original_four_momentum.set_momentum_x(0);
-  // original_four_momentum.set_momentum_y(0);
-  // original_four_momentum.set_momentum_z(0);
-
-  std::cout<<"Move constructor called in FourMomentum class."<<std::endl;
 }
 
 // Move assignment operator
@@ -84,12 +76,6 @@ FourMomentum::FourMomentum(FourMomentum &&original_four_momentum)
       // Resets data members of the original particle
       original_four_momentum.set_invariant_mass(0);
       original_four_momentum.set_four_momentum(0, 0, 0, 0, 0);
-      // original_four_momentum.set_energy(0);
-      // original_four_momentum.set_momentum_x(0);
-      // original_four_momentum.set_momentum_y(0);
-      // original_four_momentum.set_momentum_z(0);
-
-      std::cout<<"Move assignment called in FourMomentum class."<<std::endl;
     
       return *this;
     }
@@ -116,30 +102,11 @@ FourMomentum& FourMomentum::operator=(const FourMomentum &original_four_momentum
     momentum_y=original_four_momentum.momentum_y;
     momentum_z=original_four_momentum.momentum_z;
     four_momentum_vector=original_four_momentum.four_momentum_vector;
-    
-    std::cout<<"Copy assignment operator called in FourMomentum class"<<std::endl;
 
     return *this;
   }
 }
 
-// Setter functions
-// void FourMomentum::set_energy(double energy)
-// {
-//   // Ensuring energy value is physical
-//   if(energy>=0)
-//   {
-//     particle_energy=energy;
-//   }
-
-//   else
-//   {
-//     std::cerr<<"The energy you entered for the four momentum vector is not physical. It has to be a positive value."<<
-//       "\nEnergy value 10 will be set for you."<<std::endl;
-
-//     particle_energy=10;
-//   }
-// }
 
 void FourMomentum::set_four_momentum(double rest_mass, double energy, double p_x, double p_y, double p_z)
 {
@@ -165,7 +132,8 @@ void FourMomentum::set_four_momentum(double rest_mass, double energy, double p_x
 
     // Choose energy value from a random number generator (energy value has to at least be invariant mass)
     std::random_device random_number;
-    std::uniform_real_distribution<double> energy_distribution(invariant_mass, 200000); // An arbitrary, high number chosen for the upper bound
+    std::uniform_real_distribution<double> energy_distribution(invariant_mass, 200000);
+    // An arbitrary, high number chosen for the upper bound
 
     particle_energy=energy_distribution(random_number);
 
@@ -213,75 +181,6 @@ std::pair<double, bool> FourMomentum::invariant_mass_calculator(double rest_mass
   return return_pair;
 }
 
-// // Overloaded sum operator
-// std::vector<double> FourMomentum::operator+(const FourMomentum& other_particle)
-// {
-//   std::vector<double> sum_vector;
-//   std::vector<double>::iterator vector_iterator;
-
-//   for(vector_iterator=four_momentum_vector.begin();vector_iterator<four_momentum_vector.end();vector_iterator++)
-//   {
-//     sum_vector.push_back(*vector_iterator+(other_particle.get_four_momentum())[i]);
-//   }
-
-//   std::cout<<"\nThe sum of "<<other_particle.get_type()<<" and "<<particle_type<<
-//     "'s four momenta (E/c, p_x, p_y, p_z)= ("<<sum_vector[0]<<", "<<sum_vector[1]
-//       <<", "<<sum_vector[2]<<", "<<sum_vector[3]<<")\n"<<std::endl;
-
-//   return sum_vector;
-// }
-
-// // Overloaded dot product operator
-// double dotProduct(const FourMomentum& other_particle)
-// {
-//   // Defining variables
-//   std::vector<double> multiplied_elements(4);
-//   double dot_product_scalar;
-
-//   multiplied_elements[0]=particle_1.four_momentum_ptr->get_energy()*particle_2.four_momentum_ptr
-//     ->get_energy();
-//   multiplied_elements[1]=particle_1.four_momentum_ptr->get_momentum_x()*particle_2.four_momentum_ptr
-//     ->get_momentum_x();
-//   multiplied_elements[2]=particle_1.four_momentum_ptr->get_momentum_y()*particle_2.four_momentum_ptr
-//     ->get_momentum_y();
-//   multiplied_elements[3]=particle_1.four_momentum_ptr->get_momentum_z()*particle_2.four_momentum_ptr
-//     ->get_momentum_z();
-
-//   for(size_t i{};i<multiplied_elements.size();++i)
-//   {
-//     dot_product_scalar+=multiplied_elements[i];
-//   }
-
-//   std::cout<<"Dot product of the four-momenta = "<<std::setprecision(3)<<dot_product_scalar<<"\n"<<std::endl;
-
-//   return dot_product_scalar;
-// }
-
-// Friend functions:
-
-// Overloaded sum operator
-// std::vector<double> operator+(const Particle& particle_1, const Particle& particle_2)
-// {
-//   double sum_energy, sum_p_x, sum_p_y, sum_p_z;
-//   std::vector<double> summed_four_momenta;
-
-//   sum_energy=particle_1.four_momentum_ptr->get_energy()+particle_2.four_momentum_ptr
-//     ->get_energy();
-//   sum_p_x=particle_1.four_momentum_ptr->get_momentum_x()+particle_2.four_momentum_ptr
-//     ->get_momentum_x();
-//   sum_p_y=particle_1.four_momentum_ptr->get_momentum_y()+particle_2.four_momentum_ptr
-//     ->get_momentum_y();
-//   sum_p_z=particle_1.four_momentum_ptr->get_momentum_z()+particle_2.four_momentum_ptr
-//     ->get_momentum_z();
-
-//   summed_four_momenta.push_back(sum_energy);
-//   summed_four_momenta.push_back(sum_p_x);
-//   summed_four_momenta.push_back(sum_p_y);
-//   summed_four_momenta.push_back(sum_p_z);
-
-//   return summed_four_momenta;
-// }
-
 std::vector<double> operator+(const std::vector<double>& four_momentum_vector, const Particle& particle_1)
 {
   double sum_energy, sum_p_x, sum_p_y, sum_p_z;
@@ -301,24 +200,20 @@ std::vector<double> operator+(const std::vector<double>& four_momentum_vector, c
 }
 
 // Overloaded subtraction operator
-std::vector<double> operator-(const std::vector<double>& four_momentum_vector, const Particle& particle_1)
+std::vector<double> operator-(const Particle& particle_1, const Particle& particle_2)
 {
   double subtracted_energy, subtracted_p_x, subtracted_p_y, subtracted_p_z;
   std::vector<double> subtracted_four_momenta;
 
-  subtracted_energy=particle_1.four_momentum_ptr->get_energy()-four_momentum_vector[0];
-  subtracted_p_x=particle_1.four_momentum_ptr->get_momentum_x()-four_momentum_vector[1];
-  subtracted_p_y=particle_1.four_momentum_ptr->get_momentum_y()-four_momentum_vector[2];
-  subtracted_p_z=particle_1.four_momentum_ptr->get_momentum_z()-four_momentum_vector[3];
+  subtracted_energy=particle_1.four_momentum_ptr->get_energy()-particle_2.four_momentum_ptr->get_energy();
+  subtracted_p_x=particle_1.four_momentum_ptr->get_momentum_x()-particle_2.four_momentum_ptr->get_momentum_x();
+  subtracted_p_y=particle_1.four_momentum_ptr->get_momentum_y()-particle_2.four_momentum_ptr->get_momentum_y();
+  subtracted_p_z=particle_1.four_momentum_ptr->get_momentum_z()-particle_2.four_momentum_ptr->get_momentum_z();
 
   subtracted_four_momenta.push_back(subtracted_energy);
   subtracted_four_momenta.push_back(subtracted_p_x);
   subtracted_four_momenta.push_back(subtracted_p_y);
   subtracted_four_momenta.push_back(subtracted_p_z);
-
-  std::cout<<"\nThe sum of the four-momenta (E/c, p_x, p_y, p_z)= ("<<std::setprecision(3)
-    <<subtracted_energy<<", "<<std::setprecision(3)<<subtracted_p_x<<", "<<std::setprecision(3)
-      <<subtracted_p_y<<", "<<std::setprecision(3)<<subtracted_p_z<<")\n"<<std::endl;
 
   return subtracted_four_momenta;
 }
@@ -329,23 +224,17 @@ double dotProduct(const Particle& particle_1, const Particle& particle_2)
   // Defining variables
   double dot_product_scalar;
   std::vector<double> multiplied_elements(4);
-  std::vector<double>::iterator vector_iterator;
 
-  multiplied_elements[0]=particle_1.four_momentum_ptr->get_energy()*particle_2.four_momentum_ptr
-    ->get_energy();
-  multiplied_elements[1]=particle_1.four_momentum_ptr->get_momentum_x()*particle_2.four_momentum_ptr
-    ->get_momentum_x();
-  multiplied_elements[2]=particle_1.four_momentum_ptr->get_momentum_y()*particle_2.four_momentum_ptr
-    ->get_momentum_y();
-  multiplied_elements[3]=particle_1.four_momentum_ptr->get_momentum_z()*particle_2.four_momentum_ptr
-    ->get_momentum_z();
+  multiplied_elements[0]=(particle_1.four_momentum_ptr->get_energy())*(particle_2.four_momentum_ptr
+    ->get_energy());
+  multiplied_elements[1]=(particle_1.four_momentum_ptr->get_momentum_x())*(particle_2.four_momentum_ptr
+    ->get_momentum_x());
+  multiplied_elements[2]=(particle_1.four_momentum_ptr->get_momentum_y())*(particle_2.four_momentum_ptr
+    ->get_momentum_y());
+  multiplied_elements[3]=(particle_1.four_momentum_ptr->get_momentum_z())*(particle_2.four_momentum_ptr
+    ->get_momentum_z());
 
-  for(vector_iterator=multiplied_elements.begin();vector_iterator<multiplied_elements.end();vector_iterator++)
-  {
-    dot_product_scalar-=(*vector_iterator); ///// correct?
-  }
-
-  std::cout<<"Dot product of the four-momenta = "<<std::setprecision(3)<<dot_product_scalar<<"\n"<<std::endl;
+  dot_product_scalar=(multiplied_elements[0])-(multiplied_elements[1]+multiplied_elements[2]+multiplied_elements[3]);
 
   return dot_product_scalar;
 }

@@ -25,10 +25,11 @@ class ZBoson : public GaugeBoson
 
   public:
     // Default constructor
-    ZBoson() : GaugeBoson() {std::cout<<"Default constructor called in ZBoson class for a "<<particle_type<<"."<<std::endl;}
+    ZBoson() : GaugeBoson() {};
 
     // Parameterised contructor
-    ZBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy, double p_x, double p_y, double p_z);
+    ZBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy, double p_x,
+      double p_y, double p_z);
 
     // Copy constructor
     ZBoson(const ZBoson &original_boson);
@@ -37,7 +38,7 @@ class ZBoson : public GaugeBoson
     ZBoson(ZBoson &&original_boson);
 
     // Deconstructor
-    virtual ~ZBoson() {std::cout<<"Destructor called in ZBoson class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~ZBoson() {};
 
     // Move assignment operator
     ZBoson& operator=(ZBoson &&original_boson);

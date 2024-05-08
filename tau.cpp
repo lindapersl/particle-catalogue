@@ -26,15 +26,13 @@ Tau::Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particl
 // Copy constructor
 Tau::Tau(const Tau &original_lepton) : Lepton(original_lepton)
 {
-  // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+  // Using the clone function to deep copy the decay products of the original particle by iterating over each element
   std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
   for(vector_iterator=(original_lepton.decay_products).begin();vector_iterator<(original_lepton.decay_products).end();vector_iterator++)
   {
     decay_products.push_back((*vector_iterator)->clone());
   }
-
-  std::cout<<"Copy constructor called in Tau class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move constructor
@@ -44,8 +42,6 @@ Tau::Tau(Tau &&original_lepton) : Lepton(std::move(original_lepton))
   decay_products=std::move(original_lepton.decay_products);
 
   // The data member of the original particle is reset automatically when moving a unique pointer
-
-  std::cout<<"Move constructor called in Tau class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move assignment operator
@@ -70,8 +66,6 @@ Tau& Tau::operator=(Tau &&original_lepton)
     decay_products=std::move(original_lepton.decay_products);
 
     // The data member of the original particle is reset automatically when moving a unique pointer
-
-    std::cout<<"Move assignment called in Tau class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -94,15 +88,13 @@ Tau& Tau::operator=(const Tau &original_lepton)
     // Calling the equivalent base class operator
     Particle::operator=(original_lepton);
 
-    // Deep copying the decay products of the original particle by iterating over each of its element of unique pointers
+    // Using the clone function to deep copy the decay products of the original particle by iterating over each element
     std::vector<std::unique_ptr<Particle>>::const_iterator vector_iterator;
 
     for(vector_iterator=(original_lepton.decay_products).begin();vector_iterator<(original_lepton.decay_products).end();vector_iterator++)
     {
       decay_products.push_back((*vector_iterator)->clone());
     }
-
-    std::cout<<"Copy assignment called in Tau class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
@@ -127,26 +119,9 @@ void Tau::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Par
     }
 
     decay_products.push_back(std::move(particle_1));
-    decay_products.push_back(std::move(particle_2)); /// or clone
+    decay_products.push_back(std::move(particle_2));
     decay_products.push_back(std::move(particle_3));
   }
-
-  // else if(abs(sum_product_charge)==abs(get_charge()))
-  // {
-  //   // This scenario can happen if an antitau particle is instatiated - should be 
-  //   // Ensuring the decay product vector is empty before appending
-  //   if(decay_products.size()!=0)
-  //   {
-  //     std::cerr<<"The decay product vector of this tau particle was not empty.\nIt will be cleared and filled with your new particles"
-  //       <<std::endl;
-
-  //     decay_products.clear();
-  //   }
-
-  //   decay_products.push_back(particle_1->clone());
-  //   decay_products.push_back(particle_2->clone());
-  //   decay_products.push_back(particle_3->clone());
-  // }
 
   else
   {
@@ -161,27 +136,18 @@ std::unique_ptr<Particle> Tau::convert_particle()
   particle_charge*=-1;
   lepton_number*=-1;
 
-  // convert_and_set_products(std::move(decay_products[0]), std::move(decay_products[1]), std::move(decay_products[2]));
+  // Converting each decay product and setting them to the data member
   set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()),
     std::move(decay_products[2]->convert_particle()));
 
-  // std::unique_ptr<Particle> converted_product_1{decay_products[0]->convert_particle()}; ////// std::move?
-  // std::unique_ptr<Particle> converted_product_2{decay_products[1]->convert_particle()};
-  // std::unique_ptr<Particle> converted_product_3{decay_products[2]->convert_particle()};
-
-
-  // set_products(std::move(converted_product_1), std::move(converted_product_2), std::move(converted_product_3));
-  
-
-  // set_products(std::move(decay_products[0]->convert_particle()), std::move(decay_products[1]->convert_particle()),
-  //   std::move(decay_products[2]->convert_particle()));
-
-  if(lepton_number<0) // If tau should be its antiparticle after conversion
+  // If tau should be its antiparticle after conversion
+  if(lepton_number<0)
   {
     particle_type="anti"+particle_type;
   }
 
-  else if(lepton_number>0) // If tau should be its particle after conversion
+  // If tau should be its particle after conversion
+  else if(lepton_number>0)
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -193,20 +159,14 @@ std::unique_ptr<Particle> Tau::convert_particle()
 // Print function
 void Tau::print_info()
 {
-  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))//&(decay_product_1!=nullptr)&(decay_product_2!=nullptr)&(decay_product_3!=nullptr))
+  if((four_momentum_ptr!=nullptr)&(decay_products.size()!=0))
   {
     // Calling the equivalent lepton class function
     Lepton::print_info();
 
-      std::cout<<"Particles the tau decays to = "<<decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<
-        ", "<<decay_products[2]->get_type()<<std::endl;
+      std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Particles the tau decays to = "<<std::right<<std::setfill('.')<<std::setw(20)<<
+        decay_products[0]->get_type()<<", "<<decay_products[1]->get_type()<<", "<<decay_products[2]->get_type()<<std::endl;
   }
-
-  // else if((four_momentum_ptr==nullptr)||(decay_product_1==nullptr)||(decay_product_2==nullptr)||(decay_product_3==nullptr))
-  // {
-  //   std::cerr<<"At least one of the smart pointers (four momentum pointer or one of the decay product pointers) is a null pointer,"
-  //     <<"hence information about the lepton's four momentum and/or decay products cannot be printed.\n"<<std::endl;
-  // }
 
   else if((four_momentum_ptr==nullptr)&(decay_products.size()!=0))
   {
@@ -216,13 +176,13 @@ void Tau::print_info()
 
   else if((four_momentum_ptr!=nullptr)&(decay_products.size()==0))
   {
-    std::cerr<<"The decay product vector of this tau particle was empty, hence information about the "<<particle_type<<
-      "'s produced particles cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" is empty, hence information about its "
+      <<"produced particles cannot be printed."<<std::endl;
   }
 
   else
   {
-    std::cerr<<"The decay product vector of this tau particle was empty and four momentum pointer is a null pointer,"
-      <<" hence information about the "<<particle_type<<" cannot be printed."<<std::endl;
+    std::cerr<<"The decay product vector of the "<<particle_type<<" was empty and four momentum pointer is a null pointer,"
+      <<" hence information about it cannot be printed."<<std::endl;
   }
 }

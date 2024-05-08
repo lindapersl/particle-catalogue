@@ -15,9 +15,9 @@
 #include"particle.h"
 #include"lepton.h"
 
-// Parameterised constructor
+// Parameterised constructor (all leptons are spin-1/2 particles, so this is set here)
 Lepton::Lepton(int l_number, double charge, std::string type, double rest_mass, double energy, double p_x,
-  double p_y, double p_z) : Particle(charge, 0.5, type, rest_mass, energy, p_x, p_y, p_z) // All leptons are spin-1/2 particles, so this is set here
+  double p_y, double p_z) : Particle(charge, 0.5, type, rest_mass, energy, p_x, p_y, p_z)
 {
   set_l_number(l_number); // Input checking done within setter function
 }
@@ -58,12 +58,14 @@ std::unique_ptr<Particle> Lepton::convert_particle()
   particle_charge*=-1;
   lepton_number*=-1;
 
-  if(lepton_number<0) // If lepton should be antiparticle after conversion
+  // If lepton should be antiparticle after conversion
+  if(lepton_number<0)
   {
     particle_type="anti"+particle_type;
   }
 
-  else if(lepton_number>0) // If lepton should be particle after conversion
+  // If lepton should be particle after conversion
+  else if(lepton_number>0)
   {
     // Delete first four letters "anti"
     particle_type=particle_type.erase(0, 4);
@@ -80,6 +82,7 @@ void Lepton::print_info()
     // Calling the equivalent base class function
     Particle::print_info();
 
-    std::cout<<"Lepton number = "<<lepton_number<<std::endl;
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Lepton number = "<<std::right<<std::setfill('.')
+      <<std::setw(25)<<lepton_number<<std::endl;
   }
 }

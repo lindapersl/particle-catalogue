@@ -17,20 +17,18 @@
 
 class Lepton : public Particle
 {
-  private:
-
   protected:
-  int lepton_number{};
+    int lepton_number{};
 
   public:
     // Default constructor
-    Lepton() : Particle() {std::cout<<"Default constructor called in Lepton class for a "<<particle_type<<"."<<std::endl;}
+    Lepton() : Particle() {};
 
     // Parameterised constructor
     Lepton(int l_number, double charge, std::string type, double rest_mass, double energy, double p_x, double p_y, double p_z);
 
     // Destructor
-    virtual ~Lepton() {std::cout<<"Destructor called in Lepton class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Lepton() {};
 
     // Setter function
     void set_l_number(int l_number);

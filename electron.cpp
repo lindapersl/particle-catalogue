@@ -15,10 +15,10 @@
 #include"lepton.h"
 #include"electron.h"
 
-// Parameterised constructor
+// Parameterised constructor (all electrons have lepton number=1, charge=-1 and rest mass=0.511 MeV/c^2 so these are set here)
 Electron::Electron(double layer_1, double layer_2, double layer_3, double layer_4, double energy, double p_x, double p_y,
   double p_z) : Lepton(1, -1, "electron", 0.511, energy, p_x, p_y, p_z)
-{ // All electrons have lepton number=1, charge=-1 and rest mass=0.511 MeV/c^2 so these are set here
+{
   set_deposited_energy(layer_1, layer_2, layer_3, layer_4);  // Input checking done within setter function
 }
 
@@ -26,29 +26,17 @@ Electron::Electron(double layer_1, double layer_2, double layer_3, double layer_
 Electron::Electron(const Electron &original_lepton) : Lepton(original_lepton)
 {
   // Copying data members of the original particle
-  // energy_layer_1=original_lepton.energy_layer_1;
-  // energy_layer_2=original_lepton.energy_layer_2;
-  // energy_layer_3=original_lepton.energy_layer_3;
-  // energy_layer_4=original_lepton.energy_layer_4;
   deposited_energy=original_lepton.deposited_energy;
-
-  std::cout<<"Copy constructor called in Electron class for a "<<particle_type<<"."<<std::endl;
 }
 
 // Move constructor
 Electron::Electron(Electron &&original_lepton) : Lepton(std::move(original_lepton))
 {
   // Move data of the original particle to a new particle
-  // energy_layer_1=original_lepton.energy_layer_1;
-  // energy_layer_2=original_lepton.energy_layer_2;
-  // energy_layer_3=original_lepton.energy_layer_3;
-  // energy_layer_4=original_lepton.energy_layer_4;
   deposited_energy=std::move(original_lepton.deposited_energy);
 
   // Resets data members of the original particle
-  original_lepton.set_deposited_energy(0, 0, 0, 0);
-
-  std::cout<<"Move constructor called in Electron class for a "<<particle_type<<"."<<std::endl;
+  original_lepton.reset_deposited_energy();
 }
 
 // Move assignment operator
@@ -70,16 +58,10 @@ Electron& Electron::operator=(Electron &&original_lepton)
     Particle::operator=(std::move(original_lepton));
 
     // Move data of the original particle to a new particle
-    // energy_layer_1=original_lepton.energy_layer_1;
-    // energy_layer_2=original_lepton.energy_layer_2;
-    // energy_layer_3=original_lepton.energy_layer_3;
-    // energy_layer_4=original_lepton.energy_layer_4;
     deposited_energy=std::move(original_lepton.deposited_energy);
     
     // Resets data members of the original particle
-    original_lepton.set_deposited_energy(0, 0, 0, 0);
-
-    std::cout<<"Move assignment called in Electron class for a "<<particle_type<<"."<<std::endl;
+    original_lepton.reset_deposited_energy();
   
     return *this;
   }
@@ -103,110 +85,11 @@ Electron& Electron::operator=(const Electron &original_lepton)
     Particle::operator=(original_lepton);
 
     // Copying data members of the original particle
-    // energy_layer_1=original_lepton.energy_layer_1;
-    // energy_layer_2=original_lepton.energy_layer_2;
-    // energy_layer_3=original_lepton.energy_layer_3;
-    // energy_layer_4=original_lepton.energy_layer_4;
     deposited_energy=original_lepton.deposited_energy;
-
-    std::cout<<"Copy assignment called in Electron class for a "<<particle_type<<"."<<std::endl;
   
     return *this;
   }
 }
-
-// Setter functions
-// void Electron::set_layer_1(double layer_1)
-// {
-//   double total_energy_deposited{layer_1+energy_layer_2+energy_layer_3+energy_layer_4};
-
-//   if(total_energy_deposited==(four_momentum_ptr->get_energy()))
-//   {
-//     energy_layer_1=layer_1;
-//   }
-
-//   else
-//   {
-//     std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
-//       <<" the electron in the 4-vector. A correct energy distribution is going to be set for you."<<std::endl;
-
-//     // Preserving the energy ratio chosen by the user
-//     double layer_1_ratio{layer_1/total_energy_deposited};
-
-//     energy_layer_1=layer_1_ratio*(four_momentum_ptr->get_energy());
-//   }
-
-//   deposited_energy[0]=energy_layer_1;
-// }
-
-// void Electron::set_layer_2(double layer_2)
-// {
-//   double total_energy_deposited{energy_layer_1+layer_2+energy_layer_3+energy_layer_4};
-
-//   if(total_energy_deposited==(four_momentum_ptr->get_energy()))
-//   {
-//     energy_layer_2=layer_2;
-//   }
-
-//   else
-//   {
-//     std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
-//       <<" the electron in the 4-vector. A correct energy distribution is going to be set for you."<<std::endl;
-
-//     // Preserving the energy ratio chosen by the user
-//     double layer_2_ratio{layer_2/total_energy_deposited};
-
-//     energy_layer_2=layer_2_ratio*(four_momentum_ptr->get_energy());
-//   }
-
-//   deposited_energy[1]=energy_layer_2;
-// }
-
-// void Electron::set_layer_3(double layer_3)
-// {
-//   double total_energy_deposited{energy_layer_1+energy_layer_2+layer_3+energy_layer_4};
-
-//   if(total_energy_deposited==(four_momentum_ptr->get_energy()))
-//   {
-//     energy_layer_3=layer_3;
-//   }
-
-//   else
-//   {
-//     std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
-//       <<" the electron in the 4-vector. A correct energy distribution is going to be set for you."<<std::endl;
-
-//     // Preserving the energy ratio chosen by the user
-//     double layer_3_ratio{layer_3/total_energy_deposited};
-
-//     energy_layer_3=layer_3_ratio*(four_momentum_ptr->get_energy());
-//   }
-
-//   deposited_energy[2]=energy_layer_3;
-// }
-
-// void Electron::set_layer_4(double layer_4)
-// {
-//   double total_energy_deposited{energy_layer_1+energy_layer_2+energy_layer_3+layer_4};
-
-//   if(total_energy_deposited==(four_momentum_ptr->get_energy()))
-//   {
-//     energy_layer_4=layer_4;
-//   }
-
-//   else
-//   {
-//     std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
-//       <<" the electron in the 4-vector. A correct energy distribution is going to be set for you."<<std::endl;
-
-//     // Preserving the energy ratio chosen by the user
-//     double layer_4_ratio{layer_4/total_energy_deposited};
-
-//     energy_layer_4=layer_4_ratio*(four_momentum_ptr->get_energy());
-//   }
-
-//   deposited_energy[3]=energy_layer_4;
-// }
 
 void Electron::set_deposited_energy(double layer_1, double layer_2, double layer_3, double layer_4)
 {
@@ -223,7 +106,7 @@ void Electron::set_deposited_energy(double layer_1, double layer_2, double layer
 
   else
   {
-    std::cout<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
+    std::cerr<<"The total energy deposited in the calorimeter layers is not equal to the energy of"
       <<" the electron in the four-momentum. A correct energy distribution is going to be set for you"
         <<" preserving the ratio of energies you inputted."<<std::endl;
 
@@ -240,6 +123,15 @@ void Electron::set_deposited_energy(double layer_1, double layer_2, double layer
   }
 }
 
+// Function to reset deposited energy values to zero regardless of electron's four momenta
+void Electron::reset_deposited_energy()
+{
+  deposited_energy[0]=0;
+  deposited_energy[1]=0;
+  deposited_energy[2]=0;
+  deposited_energy[3]=0;
+}
+
 // Print function
 void Electron::print_info()
 {
@@ -248,9 +140,9 @@ void Electron::print_info()
     // Calling the equivalent lepton class function
     Lepton::print_info();
     
-    std::cout<<"Deposited energy in calorimeter layer (layer_1, layer_2, layer_3, layer_4) = ("
-      <<deposited_energy[0]<<", "<<deposited_energy[1]<<", "<<deposited_energy[2]<<
-        ", "<<deposited_energy[3]<<")"<<std::endl;
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Deposited energy in calorimeter layers = "
+      <<std::right<<std::setfill('.')<<std::setw(8)<<"("<<deposited_energy[0]<<", "<<deposited_energy[1]<<", "<<
+        deposited_energy[2]<<", "<<deposited_energy[3]<<") MeV"<<std::endl;
   }
 
   else

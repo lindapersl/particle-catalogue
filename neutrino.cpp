@@ -24,16 +24,16 @@ void Neutrino::print_info()
     // Calling the equivalent lepton class function
     Lepton::print_info();
 
-    std::cout<<"Neutrino has interacted = ";
+    std::cout<<std::left<<std::setfill('.')<<std::setw(25)<<"Neutrino has interacted = ";
 
     if(interaction_info == 0)
     {
-      std::cout<<"No"<<std::endl;
+      std::cout<<std::right<<std::setfill('.')<<std::setw(25)<<"No"<<std::endl;
     }
 
     else if(interaction_info == 1)
     {
-      std::cout<<"Yes"<<std::endl;
+      std::cout<<std::right<<std::setfill('.')<<std::setw(25)<<"Yes"<<std::endl;
     }
   }
 
@@ -50,7 +50,8 @@ std::unique_ptr<Particle> Neutrino::convert_particle()
   // Negating the lepton number (charge is zero for neutrinos, so no need to negate it)
   lepton_number*=-1;
 
-  if(lepton_number<0) // If neutrino is an antiparticle after conversion
+  // If neutrino is an antiparticle after conversion
+  if(lepton_number<0)
   {
     std::stringstream particle_type_stream(particle_type);
     std::string flavour, neutrino_name;
@@ -60,7 +61,8 @@ std::unique_ptr<Particle> Neutrino::convert_particle()
     particle_type=flavour+" anti"+neutrino_name;
   }
 
-  else if(lepton_number>0) // If neutrino is its particle after conversion
+  // If neutrino is its particle after conversion
+  else if(lepton_number>0)
   {
     std::stringstream particle_type_stream(particle_type);
     std::string flavour, neutrino_name;

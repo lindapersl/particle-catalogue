@@ -25,14 +25,14 @@ class Neutrino : public Lepton
 
   public:
     // Default constructor
-    Neutrino() : Lepton() {std::cout<<"Default constructor called in Neutrino class for a "<<particle_type<<"."<<std::endl;}
+    Neutrino() : Lepton() {};
 
     // Parameterised constructor (all neutrinos have lepton number=1, charge=0 and rest mass=0 so these are set here)
     Neutrino(bool interacted, std::string flavour, double energy, double p_x, double p_y, double p_z) :
       Lepton(1, 0, (flavour+" neutrino"), 0, energy, p_x, p_y, p_z), interaction_info(interacted), neutrino_flavour(flavour) {};
 
     // Deconstructor
-    virtual ~Neutrino() {std::cout<<"Destructor called in Neutrino class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Neutrino() {};
 
     // Getter function
     bool get_interaction() const {return interaction_info;}
@@ -46,7 +46,7 @@ class Neutrino : public Lepton
     std::unique_ptr<Particle> convert_particle();
 
     // Overriden clone function
-    std::unique_ptr<Particle> clone() const {return std::make_unique<Neutrino>(*this);} ///// check for self assessment?
+    std::unique_ptr<Particle> clone() const {return std::make_unique<Neutrino>(*this);}
 
     // Print function
     void print_info();

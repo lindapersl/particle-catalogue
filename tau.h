@@ -25,7 +25,7 @@ class Tau : public Lepton
 
   public:
     // Default constructor
-    Tau() : Lepton() {std::cout<<"Default constructor called in Tau class for a "<<particle_type<<"."<<std::endl;}
+    Tau() : Lepton() {};
 
     // Parameterised contructor
     Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3,
@@ -38,7 +38,7 @@ class Tau : public Lepton
     Tau(Tau &&original_lepton);
 
     // Deconstructor
-    virtual ~Tau() {std::cout<<"Destructor called in Tau class for a "<<particle_type<<"."<<std::endl;}
+    virtual ~Tau() {};
 
     // Move assignment operator
     Tau& operator=(Tau &&original_lepton);

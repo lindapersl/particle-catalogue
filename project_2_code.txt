@@ -1,0 +1,5 @@
+Compiling line:
+
+g++ main.cpp particle.cpp four_momentum.cpp lepton.cpp electron.cpp muon.cpp neutrino.cpp tau.cpp quark.cpp gluon.cpp z_boson.cpp w_boson.cpp higgs.cpp -o myprogram.exe
+
+.\myprogram.exe
