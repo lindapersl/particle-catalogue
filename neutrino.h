@@ -28,8 +28,7 @@ class Neutrino : public Lepton
     Neutrino() : Lepton() {};
 
     // Parameterised constructor (all neutrinos have lepton number=1, charge=0 and rest mass=0 so these are set here)
-    Neutrino(bool interacted, std::string flavour, double energy, double p_x, double p_y, double p_z) :
-      Lepton(1, 0, (flavour+" neutrino"), 0, energy, p_x, p_y, p_z), interaction_info(interacted), neutrino_flavour(flavour) {};
+    Neutrino(bool interacted, std::string flavour, double energy, double p_x, double p_y, double p_z);
 
     // Deconstructor
     virtual ~Neutrino() {};
@@ -40,7 +39,7 @@ class Neutrino : public Lepton
 
     // Setter function
     void set_interaction(bool interacted) {interaction_info=interacted;}
-    void set_flavour(std::string flavour) {neutrino_flavour=flavour;}
+    void set_flavour(std::string flavour);
 
     // Function to convert between particles and antiparticles
     std::unique_ptr<Particle> convert_particle();

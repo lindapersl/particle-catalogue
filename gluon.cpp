@@ -9,6 +9,7 @@
 #include<iostream>
 #include<string>
 #include<iomanip>
+#include<set>
 
 #include"particle.h"
 #include"gauge_boson.h"
@@ -24,17 +25,51 @@ Gluon::Gluon(std::string colour_1, std::string colour_2, double energy, double p
 // Setter function
 void Gluon::set_colours(std::string colour_1, std::string colour_2)
 {
-  // Checking if gluon has been assigned one colour and one anticolour
-  if((((colour_1.substr(0, 4))!="anti")&((colour_2.substr(0, 4))=="anti"))||(((colour_1.substr(0, 4))=="anti")&((colour_2.substr(0, 4))!="anti")))
+  // Ensuring the input are one of the six possible colour charges
+  std::set<std::string> possible_colour_charges{"red", "blue", "green", "antired", "antiblue", "antigreen"};
+
+  if((possible_colour_charges.count(colour_1)>0)&(possible_colour_charges.count(colour_2)>0))
   {
-    colour_charge_1=colour_1;
-    colour_charge_2=colour_2;
+    // Checking if gluon has been assigned one colour and one anticolour
+    if((((colour_1.substr(0, 4))!="anti")&((colour_2.substr(0, 4))=="anti"))||(((colour_1.substr(0, 4))=="anti")&
+      ((colour_2.substr(0, 4))!="anti")))
+    {
+      colour_charge_1=colour_1;
+      colour_charge_2=colour_2;
+    }
+
+    else
+    {
+      std::cerr<<"The gluon colour charge combination isn't physical. It has to have one charge and one anticharge."
+        <<std::endl;
+
+      // If they are both anti-colour
+      if(((colour_1.substr(0, 4))=="anti")&((colour_2.substr(0, 4))=="anti"))
+      {
+        std::cout<<"One of the anti-colours will be made into its corresponding colour charge."<<std::endl;
+
+        colour_charge_1=colour_1;
+        colour_charge_2=colour_2.erase(0, 4);
+      }
+
+      // If they are both colour
+      if(((colour_1.substr(0, 4))!="anti")&((colour_2.substr(0, 4))!="anti"))
+      {
+        std::cout<<"One of the colour charges will be made into its corresponding anti-colour."<<std::endl;
+
+        colour_charge_1=colour_1;
+        colour_charge_2="anti"+colour_2;
+      }
+    }
   }
 
   else
   {
-    std::cerr<<"The gluon colour charge combination isn't physical. It has to have one charge and one anticharge. Thus, no colour charges were set."
-      <<std::endl;
+    std::cerr<<"A rouge string was inputted that was not one of the six possible colour charges."
+      <<" A random colour charge will be set for you."<<std::endl;
+
+    colour_charge_1="green";
+    colour_charge_2="antigreen";
   }
 }
 

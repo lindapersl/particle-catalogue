@@ -28,7 +28,7 @@ class Gluon : public GaugeBoson
     // Parameterised constructor
     Gluon(std::string colour_1, std::string colour_2, double energy, double p_x, double p_y, double p_z);
 
-    // Deconstructor
+    // Destructor
     virtual ~Gluon() {};
 
     // Setter function

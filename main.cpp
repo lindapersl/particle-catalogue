@@ -33,6 +33,7 @@
 #include"z_boson.h"
 #include"w_boson.h"
 #include"higgs.h"
+#include"photon.h"
 
 int main()
 {
@@ -62,8 +63,8 @@ int main()
   std::unique_ptr<Particle> w_2_boson_decay_product_2=std::make_unique<Bottom>("blue", 18, 6 , 12, 2);
 
   // Instantiating the decay products of the Higgs boson
-  std::unique_ptr<Particle> higgs_decay_product_1=std::make_unique<GaugeBoson>(0, "photon", 0, 43, 13, 20, 3);
-  std::unique_ptr<Particle> higgs_decay_product_2=std::make_unique<GaugeBoson>(0, "photon", 0, 20, 9, 12, 17);
+  std::unique_ptr<Particle> higgs_decay_product_1=std::make_unique<Photon>(43, 13, 20, 3);
+  std::unique_ptr<Particle> higgs_decay_product_2=std::make_unique<Photon>(20, 9, 12, 17);
 
   // Creating a catalogue with all 31 particles
   particle_catalogue["electron"]=std::make_unique<Electron>(10, 6, 4, 3, 1.6, 0.5, 0.7, 0.8);
@@ -99,8 +100,8 @@ int main()
   particle_catalogue["W- boson"]=std::make_unique<WBoson>(std::move(w_1_boson_decay_product_1), std::move(w_1_boson_decay_product_2),
     12, 2, 4, 7);
   particle_catalogue["W+ boson"]=std::make_unique<WBoson>(std::move(w_2_boson_decay_product_1), std::move(w_2_boson_decay_product_2),
-    30, 2, 22, 12)->convert_particle(); //// Problem of converting and setting decay products
-  particle_catalogue["photon"]=std::make_unique<GaugeBoson>(0, "photon", 0, 56, 14, 21, 11);
+    30, 2, 22, 12)->convert_particle();
+  particle_catalogue["photon"]=std::make_unique<Photon>(56, 14, 21, 11);
   particle_catalogue["higgs boson"]=std::make_unique<Higgs>(std::move(higgs_decay_product_1), std::move(higgs_decay_product_2),
     12, 2, 1, 4);
 
@@ -142,18 +143,25 @@ int main()
   // Clearing one of the containers (quark catalogue for example)
   quark_catalogue.clear_container();
 
-  // Testing input checking by instantiating a particle with wrong characteristics
-  // For example, an antitau particle with 'illegal' decay products
+  // Testing input checking by instantiating particles with wrong characteristics
+  // For example, an antitau particle with 'illegal' decay products and non-physical four-momentum
   ParticleContainer<Particle> bad_particle_container;
 
-  std::unique_ptr<Particle> bad_antitau_decay_product_1=std::make_unique<GaugeBoson>(0, "photon", 0, 12, 11, 1, 14);
+  std::unique_ptr<Particle> bad_antitau_decay_product_1=std::make_unique<Photon>(12, 11, 1, 14);
   std::unique_ptr<Particle> bad_antitau_decay_product_2=std::make_unique<Charm>("green", 12, 2, 12, 7)->convert_particle();
   std::unique_ptr<Particle> bad_antitau_decay_product_3=std::make_unique<Down>("blue", 18, 22, 12, 13);
 
-  bad_particle_container["tau"]=std::make_unique<Tau>(std::move(bad_antitau_decay_product_1), std::move(bad_antitau_decay_product_2),
-    std::move(bad_antitau_decay_product_3), 29, 12, 15, 9)->convert_particle();
+  bad_particle_container["tau"]=std::make_unique<Tau>(std::move(bad_antitau_decay_product_1), std::move
+    (bad_antitau_decay_product_2), std::move(bad_antitau_decay_product_3), 29, 12, 15, 9)->convert_particle();
 
-  bad_particle_container.print_particle_info("tau");
+  // Another example of a gluon with the wrong colour charges (the same ones)
+  bad_particle_container["gluon"]=std::make_unique<Gluon>("green", "red", 39, 12, 23, 3);
+
+  // Another example of a neutrino with a 'bad' flavour (uncomment if needed - does terminate the code though)
+  // bad_particle_container["bad neutrino"]=std::make_unique<Neutrino>(0, "bad", 12, 4, 13, 8);
+
+  std::cout<<"Information about the corrected 'bad' particles:\n"<<std::endl;
+  bad_particle_container.print_catalogue();
 
  return 0;
 }

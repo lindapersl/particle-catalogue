@@ -35,7 +35,7 @@ class Higgs : public Particle
     // Move constructor
     Higgs(Higgs &&original_boson);
 
-    // Deconstructor
+    // Destructor
     virtual ~Higgs() {};
 
     // Move assignment operator

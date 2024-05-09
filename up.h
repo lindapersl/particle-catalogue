@@ -25,7 +25,7 @@ class Up : public Quark
     // so these are set here)
     Up(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667, "up", 2.2, energy, p_x, p_y, p_z) {};
 
-    // Deconstructor
+    // Destructor
     virtual ~Up() {};
 
     // Overriden clone function

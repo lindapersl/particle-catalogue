@@ -37,7 +37,7 @@ class WBoson : public GaugeBoson
     // Move constructor
     WBoson(WBoson &&original_boson);
 
-    // Deconstructor
+    // Destructor
     virtual ~WBoson() {};
 
     // Move assignment operator

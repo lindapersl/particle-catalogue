@@ -26,7 +26,7 @@ class Top : public Quark
     Top(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667,
       "top", 173100, energy, p_x, p_y, p_z) {};
 
-    // Deconstructor
+    // Destructor
     virtual ~Top() {};
 
     // Overriden clone function

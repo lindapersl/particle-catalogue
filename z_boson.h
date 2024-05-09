@@ -37,7 +37,7 @@ class ZBoson : public GaugeBoson
     // Move constructor
     ZBoson(ZBoson &&original_boson);
 
-    // Deconstructor
+    // Destructor
     virtual ~ZBoson() {};
 
     // Move assignment operator

@@ -26,7 +26,7 @@ class Charm : public Quark
     Charm(std::string colour, double energy, double p_x, double p_y, double p_z) : Quark(0.333, colour, 0.667,
       "charm", 1280, energy, p_x, p_y, p_z) {};
 
-    // Deconstructor
+    // Destructor
     virtual ~Charm() {};
 
     // Overriden clone function

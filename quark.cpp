@@ -11,6 +11,7 @@
 #include<iomanip>
 #include<string>
 #include<cmath>
+#include<set>
 
 #include"particle.h"
 #include"quark.h"
@@ -54,37 +55,65 @@ void Quark::set_b_number(double b_number)
 
 void Quark::set_colour(std::string colour)
 {
-  // Checking if colour charge is consistent with whether the quark is a particle or an antiparticle
+  // Ensuring the input are one of the six possible colour charges
+  std::set<std::string> possible_colour_charges{"red", "blue", "green", "antired", "antiblue", "antigreen"};
 
-  // If the quark is a particle
-  if(baryon_number==0.333)
+  if(possible_colour_charges.count(colour)>0)
   {
-    // If the colour charge is a colour
-    if((colour.substr(0, 4))!="anti")
+    // Checking if colour charge is consistent with whether the quark is a particle or an antiparticle
+
+    // If the quark is a particle
+    if(baryon_number==0.333)
     {
-      colour_charge=colour;
+      // If the colour charge is a colour
+      if((colour.substr(0, 4))!="anti")
+      {
+        colour_charge=colour;
+      }
+
+      else
+      {
+        std::cerr<<"The colour charge is inconsistent: it is an anti-colour, but the quark is a particle."
+          <<" The same anti-colour will be made into its corresponding colour charge."<<std::endl;
+
+        colour_charge=colour.erase(0, 4);
+      }
     }
 
-    else
+    // If the quark is an antiparticle
+    else if(baryon_number==-0.333)
     {
-      std::cerr<<"The colour charge is an anti-colour, but the quark is a particle. A colour charge was not set for you due to to this inconsistency."
-        <<std::endl;
+      // If the colour charge is an anti-colour
+      if((colour.substr(0, 4))=="anti")
+      {
+        colour_charge=colour;
+      }
+
+      else
+      {
+        std::cerr<<"The colour charge is inconsistent: it is a colour, but the quark is an antiparticle."
+          <<" The same colour charge will be made into its corresponding anti-colour."<<std::endl;
+
+        colour_charge="anti"+colour;
+      }
     }
   }
 
-  // If the quark is an antiparticle
-  else if(baryon_number==-0.333)
+  else
   {
-    // If the colour charge is an anti-colour
-    if((colour.substr(0, 4))=="anti")
+    std::cerr<<"A rouge string was inputted that was not one of the six possible colour charges."
+      <<" A random colour charge will be set for you."<<std::endl;
+
+    // If the quark is a particle
+    if(baryon_number==0.333)
     {
-      colour_charge=colour;
+      colour_charge="green";
     }
 
-    else
+    // If the quark is an antiparticle
+    else if(baryon_number==-0.333)
     {
-      std::cerr<<"The colour charge is a colour, but the quark is an antiparticle. A colour charge was not set for you due to to this inconsistency."
-        <<std::endl;
+      colour_charge="antiblue";
     }
   }
 }

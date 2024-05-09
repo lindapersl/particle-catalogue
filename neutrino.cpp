@@ -11,10 +11,41 @@
 #include<sstream>
 #include<iomanip>
 #include<memory>
+#include<set>
+#include<stdexcept>
 
 #include"particle.h"
 #include"lepton.h"
 #include"neutrino.h"
+
+// Parameterised constructor (all neutrinos have lepton number=1, charge=0 and rest mass=0
+// so these are set here)
+Neutrino::Neutrino(bool interacted, std::string flavour, double energy, double p_x, double p_y, double p_z) :
+  Lepton(1, 0, (flavour+" neutrino"), 0, energy, p_x, p_y, p_z)
+{
+  interaction_info=interacted;
+  set_flavour(flavour); // Makes use of input checking
+
+  // Updating the particle_type with the correct one just in case 'flavour' was a rouge input
+  set_type(flavour+" neutrino");
+}
+
+// Setter function
+void Neutrino::set_flavour(std::string flavour)
+{
+  // Ensuring the input are one of the three possible flavours
+  std::set<std::string> possible_flavours{"electron", "muon", "tau"};
+
+  if(possible_flavours.count(flavour)>0)
+  {
+    neutrino_flavour=flavour;
+  }
+
+  else
+  {
+    throw std::invalid_argument("Invalid neutrino flavour: "+flavour);
+  }
+}
 
 // Print function
 void Neutrino::print_info()
