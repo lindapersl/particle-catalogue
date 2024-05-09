@@ -46,6 +46,10 @@ class Higgs : public Particle
 
     // Getter functions
     std::vector<std::unique_ptr<Particle>> const& get_products() const {return decay_products;}
+  
+    // Overridden getter functions that have no meaning in Higgs class
+    int get_l_number() const {return 0;}
+    double get_b_number() const {return 0;}
 
     // Setter function
     void set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2);

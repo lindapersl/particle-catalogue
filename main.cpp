@@ -142,5 +142,18 @@ int main()
   // Clearing one of the containers (quark catalogue for example)
   quark_catalogue.clear_container();
 
+  // Testing input checking by instantiating a particle with wrong characteristics
+  // For example, an antitau particle with 'illegal' decay products
+  ParticleContainer<Particle> bad_particle_container;
+
+  std::unique_ptr<Particle> bad_antitau_decay_product_1=std::make_unique<GaugeBoson>(0, "photon", 0, 12, 11, 1, 14);
+  std::unique_ptr<Particle> bad_antitau_decay_product_2=std::make_unique<Charm>("green", 12, 2, 12, 7)->convert_particle();
+  std::unique_ptr<Particle> bad_antitau_decay_product_3=std::make_unique<Down>("blue", 18, 22, 12, 13);
+
+  bad_particle_container["tau"]=std::make_unique<Tau>(std::move(bad_antitau_decay_product_1), std::move(bad_antitau_decay_product_2),
+    std::move(bad_antitau_decay_product_3), 29, 12, 15, 9)->convert_particle();
+
+  bad_particle_container.print_particle_info("tau");
+
  return 0;
 }

@@ -41,6 +41,9 @@ class Quark : public Particle
     double get_b_number() const {return baryon_number;}
     std::string get_colour() const {return colour_charge;}
 
+    // Overridden getter function that has no meaning in quark class
+    int get_l_number() const {return 0;}
+
     // Function to convert between particles and antiparticles
     virtual std::unique_ptr<Particle> convert_particle();
 

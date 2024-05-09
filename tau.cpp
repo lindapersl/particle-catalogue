@@ -15,6 +15,9 @@
 #include"particle.h"
 #include"lepton.h"
 #include"tau.h"
+#include"up.h"
+#include"down.h"
+#include"neutrino.h"
 
 // Parameterised constructor (all taus have lepton number=1, charge=-1 and rest mass=1776.8 Mev/c^2 so these are set here)
 Tau::Tau(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3,
@@ -103,21 +106,23 @@ Tau& Tau::operator=(const Tau &original_lepton)
 // Setter function
 void Tau::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, std::unique_ptr<Particle> particle_3)
 {
-  // Calculating the total charge of the decay products
+  // Calculating the total charge, lepton number and baryon number of the decay products
   double sum_product_charge{particle_1->get_charge()+particle_2->get_charge()+particle_3->get_charge()};
+  int sum_l_number{particle_1->get_l_number()+particle_2->get_l_number()+particle_3->get_l_number()};
+  double sum_b_number{particle_1->get_b_number()+particle_2->get_b_number()+particle_3->get_l_number()};
 
-  // Checking if the total charge is equal to that of the tau particle
-  if(sum_product_charge==get_charge())
+  // Ensuring the decay product vector is empty before appending
+  if(decay_products.size()!=0)
   {
-    // Ensuring the decay product vector is empty before appending
-    if(decay_products.size()!=0)
-    {
-      std::cerr<<"The decay product vector of this tau particle was not empty. It will be cleared and filled with your new particles"
-        <<std::endl;
+    std::cerr<<"The decay product vector of this "<<particle_type<<" was not empty. It will be cleared and filled with your new particles."
+      <<std::endl;
 
-      decay_products.clear();
-    }
+    decay_products.clear();
+  }
 
+  // Checking if the total charge, lepton number and baryon number are equal to that of the tau particle
+  if((sum_product_charge==get_charge())&(sum_l_number==get_l_number())&(sum_b_number==get_b_number()))
+  {
     decay_products.push_back(std::move(particle_1));
     decay_products.push_back(std::move(particle_2));
     decay_products.push_back(std::move(particle_3));
@@ -125,7 +130,12 @@ void Tau::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Par
 
   else
   {
-    std::cerr<<"The sum of decay product charges does not add up to the tau particle charge, so no decay products were set."<<std::endl;
+    std::cerr<<"The decay you chose is not physical as it breaks conservations laws()). The most probable decay will be chosen for you instead."
+      <<std::endl;
+
+    decay_products.push_back(std::make_unique<Up>("red", 15, 2, 4, 7)->convert_particle());
+    decay_products.push_back(std::make_unique<Down>("green", 20, 13, 11, 9));
+    decay_products.push_back(std::make_unique<Neutrino>(0, "tau", 10, 6, 12, 11));
   }
 }
 

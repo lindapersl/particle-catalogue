@@ -36,6 +36,9 @@ class Lepton : public Particle
     // Getter functions
     int get_l_number() const {return lepton_number;}
 
+    // Overridden getter function that has no meaning in lepton class
+    double get_b_number() const {return 0;}
+
     // Function to convert between particles and antiparticles
     virtual std::unique_ptr<Particle> convert_particle();
 

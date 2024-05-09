@@ -62,6 +62,10 @@ class Particle
     double get_rest_mass() const {return rest_mass_energy;}
     const std::unique_ptr<FourMomentum>& get_four_momentum_ptr() const {return four_momentum_ptr;}
 
+    // Pure virtual getters for access through the hierarchy when input checking
+    virtual int get_l_number() const=0;
+    virtual double get_b_number() const=0;
+
     // Function to convert between particles and antiparticles
     virtual std::unique_ptr<Particle> convert_particle()=0;
 

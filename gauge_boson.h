@@ -27,6 +27,10 @@ class GaugeBoson : public Particle
 
     // Destructor
     virtual ~GaugeBoson() {};
+  
+    // Overridden getter functions that have no meaning in gauge boson class
+    int get_l_number() const {return 0;}
+    double get_b_number() const {return 0;}
 
     // Overriden clone function
     virtual std::unique_ptr<Particle> clone() const {return std::make_unique<GaugeBoson>(*this);}

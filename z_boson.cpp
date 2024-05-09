@@ -15,6 +15,7 @@
 #include"particle.h"
 #include"gauge_boson.h"
 #include"z_boson.h"
+#include"muon.h"
 
 // Parameterised constructor (all Z bosons have charge=0 and rest mass=91190 MeV/c^2, so these are set here)
 ZBoson::ZBoson(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2, double energy,
@@ -104,28 +105,34 @@ ZBoson& ZBoson::operator=(const ZBoson &original_boson)
 // Setter function
 void ZBoson::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2)
 {
-  // Calculating the total charge of the decay products
+  // Calculating the total charge, lepton number and baryon number of the decay products
   double sum_product_charge{particle_1->get_charge()+particle_2->get_charge()};
+  int sum_l_number{particle_1->get_l_number()+particle_2->get_l_number()};
+  double sum_b_number{particle_1->get_b_number()+particle_2->get_b_number()};
 
-  // Checking if the total charge is equal to that of the ZBoson particle
-  if(sum_product_charge==get_charge())
+  // Ensuring the decay product vector is empty before appending
+  if(decay_products.size()!=0)
   {
-    // Ensuring the decay product vector is empty before appending
-    if(decay_products.size()!=0)
-    {
-      std::cerr<<"The decay product vector of this z-boson was not empty. It will be cleared and filled with your new particles"
-        <<std::endl;
+    std::cerr<<"The decay product vector of this "<<particle_type<<" was not empty. It will be cleared and filled with your new particles."
+      <<std::endl;
 
-      decay_products.clear();
-    }
+    decay_products.clear();
+  }
 
+  // Checking if the total charge, lepton number and baryon number are equal to that of the Z boson
+  if((sum_product_charge==get_charge())&(sum_l_number==get_l_number())&(sum_b_number==get_b_number()))
+  {
     decay_products.push_back(std::move(particle_1));
     decay_products.push_back(std::move(particle_2));
   }
 
   else
   {
-    std::cerr<<"The sum of decay product charges does not add up to the z-boson charge (0), so no decay products were set."<<std::endl;
+    std::cerr<<"The decay you chose is not physical as it breaks conservations law(s). The most probable decay will be chosen for you instead."
+      <<std::endl;
+
+    decay_products.push_back(std::make_unique<Muon>(0, 28, 7, 17, 5));
+    decay_products.push_back(std::make_unique<Muon>(0, 23, 1, 5, 19)->convert_particle());
   }
 }
 

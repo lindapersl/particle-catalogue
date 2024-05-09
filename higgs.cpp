@@ -14,6 +14,7 @@
 
 #include"particle.h"
 #include"higgs.h"
+#include"bottom.h"
 
 // Parameterised constructor (all Higgs bosons have charge and spin zero and rest mass= 125110 MeV/c^2,
 // so these are set here)
@@ -105,29 +106,34 @@ Higgs& Higgs::operator=(const Higgs &original_boson)
 // Setter function
 void Higgs::set_products(std::unique_ptr<Particle> particle_1, std::unique_ptr<Particle> particle_2)
 {
-  // Calculating the total charge of the decay products
+  // Calculating the total charge, lepton number and baryon number of the decay products
   double sum_product_charge{particle_1->get_charge()+particle_2->get_charge()};
+  int sum_l_number{particle_1->get_l_number()+particle_2->get_l_number()};
+  double sum_b_number{particle_1->get_b_number()+particle_2->get_b_number()};
 
-  // Checking if the total charge is equal to that of the Higgs particle
-  if(sum_product_charge==get_charge())
+  // Ensuring the decay product vector is empty before appending
+  if(decay_products.size()!=0)
   {
-    // Ensuring the decay product vector is empty before appending
-    if(decay_products.size()!=0)
-    {
-      std::cerr<<"The decay product vector of this higgs boson was not empty. It will be cleared and filled with your new"
-        <<" particles"<<std::endl;
+    std::cerr<<"The decay product vector of this "<<particle_type<<" was not empty. It will be cleared and filled with your new particles."
+      <<std::endl;
 
-      decay_products.clear();
-    }
+    decay_products.clear();
+  }
 
+  // Checking if the total charge, lepton number and baryon number are equal to that of the Higgs boson
+  if((sum_product_charge==get_charge())&(sum_l_number==get_l_number())&(sum_b_number==get_b_number()))
+  {
     decay_products.push_back(std::move(particle_1));
     decay_products.push_back(std::move(particle_2));
   }
 
   else
   {
-    std::cerr<<"The sum of decay product charges does not add up to the higgs boson charge, so no decay products were set."
+    std::cerr<<"The decay you chose is not physical as it breaks conservations law(s). The most probable decay will be chosen for you instead."
       <<std::endl;
+
+    decay_products.push_back(std::make_unique<Bottom>("red", 26, 13, 20, 9));
+    decay_products.push_back(std::make_unique<Bottom>("green", 19, 15, 1, 7)->convert_particle());
   }
 }
 
