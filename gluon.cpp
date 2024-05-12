@@ -65,7 +65,7 @@ void Gluon::set_colours(std::string colour_1, std::string colour_2)
 
   else
   {
-    std::cerr<<"A rouge string was inputted that was not one of the six possible colour charges."
+    std::cerr<<"A rogue string was inputted that was not one of the six possible colour charges."
       <<" A random colour charge will be set for you."<<std::endl;
 
     colour_charge_1="green";

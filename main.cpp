@@ -111,6 +111,10 @@ int main()
   std::cout<<"Number of quark type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Quark>()<<std::endl;
   std::cout<<"Number of gauge boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<GaugeBoson>()<<std::endl;
   std::cout<<"Number of scalar boson type particles in the catalogue : "<<particle_catalogue.get_number_particles_of_type<Higgs>()<<std::endl;
+
+  // Printing information about all particles in the complete catalogu
+  std::cout<<"Information about all particles in the complete catalogue:\n"<<std::endl;
+  particle_catalogue.print_catalogue();
   
   // Defining a new sub-containers for leptons, quarks, gauge bosons and scalar bosons
   ParticleContainer<Particle> lepton_catalogue;
@@ -122,10 +126,6 @@ int main()
   quark_catalogue=particle_catalogue.get_sub_container_of_type<Quark>();
   gauge_boson_catalogue=particle_catalogue.get_sub_container_of_type<GaugeBoson>();
   scalar_boson_catalogue=particle_catalogue.get_sub_container_of_type<Higgs>();
-
-  // Printing information about all particles in the complete catalogu
-  std::cout<<"Information about all particles in the complete catalogue:\n"<<std::endl;
-  particle_catalogue.print_catalogue();
 
   // Printing information about one particle (antitau for example)
   std::cout<<"Information about the antitau:\n"<<std::endl;

@@ -69,7 +69,7 @@ int ParticleContainer<c_type>::get_number_particles_of_type() const
   int particle_counter{0};
 
   // Iterating through each element of the map and counting particles of specific type T that meets the criteria
-  // (const std::pair<const std::string, std::unique_ptr<c_type>>& is the type of iterators for maps)
+  // (const std::pair<const std::string, std::unique_ptr<c_type>> is the type of iterators for maps)
   std::for_each(particle_container.begin(), particle_container.end(), [&](const std::pair<const std::string,
     std::unique_ptr<c_type>>& iterator)
   {
@@ -77,7 +77,7 @@ int ParticleContainer<c_type>::get_number_particles_of_type() const
     // is successful
     if(dynamic_cast<T*>(iterator.second.get())!=nullptr)
     {
-      // particle_counter captured by value and incremented by lambda function
+      // particle_counter captured by reference and incremented by lambda function
       particle_counter++;
     }
   });
@@ -105,7 +105,7 @@ std::unique_ptr<c_type>& ParticleContainer<c_type>::operator[](const std::string
   }
 }
 
-// Function to create a sub-container of particles of a specific particle type T
+// Function to create a sub-container of particles of a specific particle type U
 template<class c_type>
 template<class U>
 ParticleContainer<c_type> ParticleContainer<c_type>::get_sub_container_of_type() const
@@ -113,8 +113,8 @@ ParticleContainer<c_type> ParticleContainer<c_type>::get_sub_container_of_type()
   // Defining a new, empty particle container
   ParticleContainer sub_container;
 
-  // Iterating through each element of the map and adding particles of specific type T that meets the criteria
-  // (const std::pair<const std::string, std::unique_ptr<c_type>>& is the type of iterators for maps)
+  // Iterating through each element of the map and appending particles of specific type U that meets the criteria
+  // (const std::pair<const std::string, std::unique_ptr<c_type>> is the type for map iterators)
   std::for_each(particle_container.begin(), particle_container.end(), [&](const std::pair<const std::string,
     std::unique_ptr<c_type>>& iterator)
   {

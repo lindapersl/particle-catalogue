@@ -118,7 +118,7 @@ void Particle::print_info()
     <<std::left<<std::setfill('.')<<std::setw(25)<<"\nCharge = "<<std::right<<std::setfill('.')<<std::setw(27)<<std::setprecision(3)<<particle_charge<<" u"
     <<std::left<<std::setfill('.')<<std::setw(25)<<"\nSpin = "<<std::right<<std::setfill('.')<<std::setw(25)<<particle_spin<<
     std::left<<std::setfill('.')<<std::setw(25)<<"\nRest mass = "<<std::right<<std::setfill('.')<<std::setw(25)<<std::setprecision(3)<<rest_mass_energy<<" MeV/c^2"
-    <<std::left<<std::setfill('.')<<std::setw(25)<<"\nFour momentum (E/c, p_x, p_y, p_z) = "<<std::right<<std::setfill('.')<<std::setw(10)
+    <<std::left<<std::setfill('.')<<std::setw(30)<<"\nFour momentum (E/c, p_x, p_y, p_z) = "<<std::right<<std::setfill('.')<<std::setw(10)
       <<"("<<std::setprecision(3)<<four_momentum_ptr->get_energy()<<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_x()
         <<", "<<std::setprecision(3)<<four_momentum_ptr->get_momentum_y()<<", "<<std::setprecision(3)<<
           four_momentum_ptr->get_momentum_z()<<") MeV/c"<<std::endl;
